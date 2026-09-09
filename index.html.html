@@ -1,0 +1,781 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>ریل — پخش‌کنندهٔ آهنگ‌های شما</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #1B1F2A;
+    --surface: #232939;
+    --surface-2: #2C3346;
+    --line: #363E54;
+    --accent: #E8A33D;
+    --accent-dim: rgba(232,163,61,0.16);
+    --text: #F1EDE4;
+    --muted: #909AB4;
+    --danger: #E2725B;
+    --radius-lg: 22px;
+    --radius-sm: 10px;
+  }
+  *{ box-sizing: border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0;
+    background:
+      radial-gradient(1200px 600px at 85% -10%, #2A2140 0%, transparent 60%),
+      radial-gradient(900px 500px at -10% 110%, #1E2C34 0%, transparent 55%),
+      var(--bg);
+    color: var(--text);
+    font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
+    min-height:100vh;
+    padding: 28px 20px 60px;
+  }
+  a{ color: inherit; }
+  ::selection{ background: var(--accent-dim); }
+
+  .wrap{ max-width: 1040px; margin: 0 auto; }
+
+  header.top{
+    display:flex;
+    align-items:baseline;
+    justify-content:space-between;
+    gap:16px;
+    margin-bottom: 26px;
+    flex-wrap: wrap;
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .brand-mark{
+    width:40px;height:40px;
+    border-radius:50%;
+    border:2.5px solid var(--accent);
+    position:relative;
+    flex-shrink:0;
+  }
+  .brand-mark::before{
+    content:"";
+    position:absolute; inset:9px;
+    border-radius:50%;
+    background: var(--accent);
+  }
+  .brand h1{
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin:0;
+    letter-spacing: 0.5px;
+  }
+  .brand p{
+    margin: 2px 0 0;
+    font-size: 0.86rem;
+    color: var(--muted);
+  }
+  .clear-all{
+    background:none;
+    border:1px solid var(--line);
+    color: var(--muted);
+    padding: 9px 16px;
+    border-radius: 999px;
+    font-family:inherit;
+    font-size: 0.85rem;
+    cursor:pointer;
+    transition: border-color .15s, color .15s;
+  }
+  .clear-all:hover{ border-color: var(--danger); color: var(--danger); }
+  .clear-all:disabled{ opacity:.4; cursor:default; }
+  .clear-all:disabled:hover{ border-color: var(--line); color: var(--muted); }
+
+  /* Upload zone */
+  .dropzone{
+    border: 1.5px dashed var(--line);
+    border-radius: var(--radius-lg);
+    padding: 30px 24px;
+    text-align:center;
+    cursor:pointer;
+    background: var(--surface);
+    transition: border-color .18s, background .18s;
+    margin-bottom: 22px;
+  }
+  .dropzone.drag{
+    border-color: var(--accent);
+    background: var(--accent-dim);
+  }
+  .dropzone svg{ width: 30px; height:30px; color: var(--accent); margin-bottom: 10px; }
+  .dropzone h2{
+    font-size: 1.02rem;
+    margin: 0 0 4px;
+    font-weight: 600;
+  }
+  .dropzone p{
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.84rem;
+  }
+  .dropzone .hint{
+    margin-top: 10px;
+    font-size: 0.76rem;
+    color: var(--muted);
+    opacity: .75;
+  }
+  input[type=file]{ display:none; }
+
+  /* Layout */
+  .layout{
+    display:grid;
+    grid-template-columns: 1fr 340px;
+    gap: 20px;
+    align-items:start;
+  }
+  @media (max-width: 860px){
+    .layout{ grid-template-columns: 1fr; }
+    .now-playing{ order:-1; }
+  }
+
+  /* Playlist */
+  .playlist-card{
+    background: var(--surface);
+    border-radius: var(--radius-lg);
+    overflow:hidden;
+    border: 1px solid var(--line);
+  }
+  .playlist-head{
+    padding: 16px 20px 10px;
+    font-size: 0.82rem;
+    color: var(--muted);
+  }
+  ul.tracks{ list-style:none; margin:0; padding: 0 8px 10px; }
+  .track{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding: 11px 12px;
+    border-radius: var(--radius-sm);
+    cursor:pointer;
+    transition: background .12s;
+  }
+  .track:hover{ background: var(--surface-2); }
+  .track.active{ background: var(--accent-dim); }
+  .track .num{
+    width: 22px;
+    text-align:center;
+    font-variant-numeric: tabular-nums;
+    color: var(--muted);
+    font-size: 0.85rem;
+    flex-shrink:0;
+  }
+  .track.active .num{ color: var(--accent); }
+  .eq{
+    width:22px; height:16px;
+    display:none;
+    align-items:flex-end;
+    gap:2px;
+    flex-shrink:0;
+  }
+  .track.active.playing .eq{ display:flex; }
+  .track.active.playing .num{ display:none; }
+  .eq span{
+    width:3px;
+    background: var(--accent);
+    border-radius: 2px;
+    animation: eqbounce 0.9s ease-in-out infinite;
+  }
+  .eq span:nth-child(1){ height:40%; animation-delay: -0.6s; }
+  .eq span:nth-child(2){ height:100%; animation-delay: -0.3s; }
+  .eq span:nth-child(3){ height:65%; animation-delay: -0.9s; }
+  @keyframes eqbounce{
+    0%,100%{ transform: scaleY(0.4); }
+    50%{ transform: scaleY(1); }
+  }
+  .track .meta{ flex:1; min-width:0; }
+  .track .title{
+    font-size: 0.92rem;
+    font-weight: 500;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+    outline:none;
+  }
+  .track .title[contenteditable="true"]{
+    background: var(--surface-2);
+    border-radius: 6px;
+    padding: 1px 4px;
+  }
+  .track .dur{
+    font-size: 0.78rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    flex-shrink:0;
+  }
+  .track .remove{
+    background:none;
+    border:none;
+    color: var(--muted);
+    cursor:pointer;
+    font-size: 1rem;
+    line-height:1;
+    padding: 4px 6px;
+    border-radius:6px;
+    flex-shrink:0;
+  }
+  .track .remove:hover{ color: var(--danger); background: rgba(226,114,91,0.12); }
+
+  .empty-state{
+    padding: 40px 24px 44px;
+    text-align:center;
+    color: var(--muted);
+  }
+  .empty-state p{ margin:4px 0; font-size: 0.88rem; }
+  .empty-state p.lead{ color: var(--text); font-weight:500; font-size: 0.95rem; }
+
+  /* Now playing */
+  .now-playing{
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    padding: 22px;
+    position: sticky;
+    top: 20px;
+  }
+  .np-empty{
+    text-align:center;
+    color: var(--muted);
+    padding: 30px 6px;
+    font-size: 0.88rem;
+  }
+  canvas#viz{
+    width:100%;
+    height:64px;
+    display:block;
+    margin-bottom: 14px;
+    border-radius: 10px;
+  }
+  .np-title{
+    font-size: 1.08rem;
+    font-weight: 700;
+    margin: 0 0 2px;
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+  .np-sub{
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin: 0 0 16px;
+  }
+  .seek-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom: 14px;
+  }
+  .seek-row span{
+    font-size: 0.74rem;
+    color: var(--muted);
+    font-variant-numeric: tabular-nums;
+    width: 34px;
+    flex-shrink:0;
+  }
+  input[type=range]{
+    -webkit-appearance:none;
+    appearance:none;
+    width:100%;
+    height:4px;
+    border-radius:99px;
+    background: var(--line);
+    outline:none;
+  }
+  input[type=range]::-webkit-slider-thumb{
+    -webkit-appearance:none;
+    width:13px;height:13px;
+    border-radius:50%;
+    background: var(--accent);
+    cursor:pointer;
+    border: none;
+  }
+  input[type=range]::-moz-range-thumb{
+    width:13px;height:13px;
+    border-radius:50%;
+    background: var(--accent);
+    cursor:pointer;
+    border:none;
+  }
+  .controls{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+  .ctrl-btn{
+    background:none;
+    border:none;
+    color: var(--text);
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:8px;
+    border-radius:50%;
+    transition: background .15s, color .15s;
+  }
+  .ctrl-btn:hover{ background: var(--surface-2); }
+  .ctrl-btn:disabled{ opacity:.35; cursor:default; }
+  .ctrl-btn:disabled:hover{ background:none; }
+  .ctrl-btn.play{
+    background: var(--accent);
+    color: #1B1F2A;
+    width:50px; height:50px;
+  }
+  .ctrl-btn.play:hover{ background: #f0b25c; }
+  .ctrl-btn.repeat.on{ color: var(--accent); }
+  .ctrl-btn svg{ width:20px; height:20px; }
+  .ctrl-btn.play svg{ width:22px; height:22px; }
+
+  .volume-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .volume-row svg{ width:16px; height:16px; color: var(--muted); flex-shrink:0; }
+
+  footer.note{
+    text-align:center;
+    color: var(--muted);
+    font-size: 0.76rem;
+    margin-top: 22px;
+    opacity: .8;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .eq span{ animation: none; transform: scaleY(0.75); }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <header class="top">
+    <div class="brand">
+      <div class="brand-mark"></div>
+      <div>
+        <h1>ریل</h1>
+        <p>آهنگ‌هاتو اضافه کن، بدون نصب چیزی گوش بده</p>
+      </div>
+    </div>
+    <button class="clear-all" id="clearAllBtn" disabled>پاک کردن لیست</button>
+  </header>
+
+  <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="افزودن فایل صوتی">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M12 4l-4 4M12 4l4 4"/><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
+    <h2>آهنگ‌ها را اینجا رها کن</h2>
+    <p>یا کلیک کن تا از حافظهٔ دستگاهت انتخاب کنی</p>
+    <div class="hint">فرمت‌های MP3، WAV، OGG و M4A پشتیبانی می‌شن</div>
+    <input type="file" id="fileInput" accept="audio/*" multiple />
+  </div>
+
+  <div class="layout">
+
+    <div class="playlist-card">
+      <div class="playlist-head" id="playlistHead">هنوز چیزی اضافه نشده</div>
+      <ul class="tracks" id="trackList"></ul>
+      <div class="empty-state" id="emptyState">
+        <p class="lead">هنوز آهنگی اضافه نکردی</p>
+        <p>از بالا یه فایل صوتی انتخاب کن تا اینجا نمایش داده بشه</p>
+      </div>
+    </div>
+
+    <div class="now-playing" id="nowPlaying">
+      <div class="np-empty" id="npEmpty">برای شروع پخش، از لیست یک آهنگ انتخاب کن</div>
+
+      <div id="npContent" style="display:none;">
+        <canvas id="viz" width="600" height="64"></canvas>
+        <h3 class="np-title" id="npTitle">—</h3>
+        <p class="np-sub" id="npSub">در حال پخش</p>
+
+        <div class="seek-row">
+          <span id="curTime">۰:۰۰</span>
+          <input type="range" id="seek" min="0" max="100" value="0" step="0.1" aria-label="جایگاه پخش" />
+          <span id="durTime">۰:۰۰</span>
+        </div>
+
+        <div class="controls">
+          <button class="ctrl-btn repeat" id="repeatBtn" title="تکرار همین آهنگ" aria-label="تکرار همین آهنگ">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
+          </button>
+          <button class="ctrl-btn" id="prevBtn" title="آهنگ قبلی" aria-label="آهنگ قبلی">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM19 6L9 12l10 6z"/></svg>
+          </button>
+          <button class="ctrl-btn play" id="playBtn" title="پخش" aria-label="پخش">
+            <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <button class="ctrl-btn" id="nextBtn" title="آهنگ بعدی" aria-label="آهنگ بعدی">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM5 6l10 6L5 18z"/></svg>
+          </button>
+          <span style="width:36px"></span>
+        </div>
+
+        <div class="volume-row">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 5V4L8 9H4z"/></svg>
+          <input type="range" id="volume" min="0" max="1" step="0.01" value="1" aria-label="میزان صدا" />
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <footer class="note">آهنگ‌ها فقط داخل همین صفحه و همین مرورگر نگه‌داری می‌شن؛ با رفرش یا بستن صفحه پاک می‌شن.</footer>
+
+</div>
+
+<audio id="player" preload="metadata"></audio>
+
+<script>
+(function(){
+  const dropzone = document.getElementById('dropzone');
+  const fileInput = document.getElementById('fileInput');
+  const trackList = document.getElementById('trackList');
+  const emptyState = document.getElementById('emptyState');
+  const playlistHead = document.getElementById('playlistHead');
+  const clearAllBtn = document.getElementById('clearAllBtn');
+
+  const player = document.getElementById('player');
+  const npEmpty = document.getElementById('npEmpty');
+  const npContent = document.getElementById('npContent');
+  const npTitle = document.getElementById('npTitle');
+  const npSub = document.getElementById('npSub');
+  const seek = document.getElementById('seek');
+  const curTimeEl = document.getElementById('curTime');
+  const durTimeEl = document.getElementById('durTime');
+  const playBtn = document.getElementById('playBtn');
+  const playIcon = document.getElementById('playIcon');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const repeatBtn = document.getElementById('repeatBtn');
+  const volume = document.getElementById('volume');
+  const viz = document.getElementById('viz');
+  const vizCtx = viz.getContext('2d');
+
+  let tracks = [];        // {id, file, url, title, duration}
+  let currentIndex = -1;
+  let repeatOne = false;
+  let idCounter = 0;
+
+  const ICON_PLAY = '<path d="M8 5v14l11-7z"/>';
+  const ICON_PAUSE = '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>';
+
+  function toPersianDigits(str){
+    const map = {'0':'۰','1':'۱','2':'۲','3':'۳','4':'۴','5':'۵','6':'۶','7':'۷','8':'۸','9':'۹'};
+    return String(str).replace(/[0-9]/g, d => map[d]);
+  }
+
+  function formatTime(sec){
+    if(!isFinite(sec) || sec < 0) sec = 0;
+    const m = Math.floor(sec/60);
+    const s = Math.floor(sec%60);
+    return toPersianDigits(m) + ':' + toPersianDigits(String(s).padStart(2,'0'));
+  }
+
+  function stripExt(name){
+    return name.replace(/\.[^/.]+$/, '');
+  }
+
+  // ---- Upload handling ----
+  function addFiles(fileListLike){
+    const files = Array.from(fileListLike).filter(f => f.type.startsWith('audio/') || /\.(mp3|wav|ogg|m4a|flac|aac)$/i.test(f.name));
+    if(files.length === 0) return;
+    files.forEach(file => {
+      const track = {
+        id: 'trk_' + (idCounter++),
+        file,
+        url: URL.createObjectURL(file),
+        title: stripExt(file.name),
+        duration: null
+      };
+      tracks.push(track);
+    });
+    renderPlaylist();
+    if(currentIndex === -1 && tracks.length > 0){
+      loadTrack(0, false);
+    }
+  }
+
+  dropzone.addEventListener('click', () => fileInput.click());
+  dropzone.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') fileInput.click(); });
+  fileInput.addEventListener('change', e => { addFiles(e.target.files); fileInput.value = ''; });
+
+  ['dragenter','dragover'].forEach(evt => {
+    dropzone.addEventListener(evt, e => { e.preventDefault(); dropzone.classList.add('drag'); });
+  });
+  ['dragleave','drop'].forEach(evt => {
+    dropzone.addEventListener(evt, e => { e.preventDefault(); dropzone.classList.remove('drag'); });
+  });
+  dropzone.addEventListener('drop', e => {
+    if(e.dataTransfer.files && e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
+  });
+
+  clearAllBtn.addEventListener('click', () => {
+    tracks.forEach(t => URL.revokeObjectURL(t.url));
+    tracks = [];
+    currentIndex = -1;
+    player.pause();
+    player.removeAttribute('src');
+    renderPlaylist();
+    showEmptyNowPlaying();
+  });
+
+  // ---- Playlist rendering ----
+  function renderPlaylist(){
+    trackList.innerHTML = '';
+    const has = tracks.length > 0;
+    emptyState.style.display = has ? 'none' : 'block';
+    clearAllBtn.disabled = !has;
+    playlistHead.textContent = has
+      ? (tracks.length === 1 ? '۱ آهنگ' : toPersianDigits(tracks.length) + ' آهنگ')
+      : 'هنوز چیزی اضافه نشده';
+
+    tracks.forEach((t, i) => {
+      const li = document.createElement('li');
+      li.className = 'track' + (i === currentIndex ? ' active' : '') + (i === currentIndex && !player.paused ? ' playing' : '');
+      li.innerHTML = `
+        <span class="num">${toPersianDigits(i+1)}</span>
+        <span class="eq"><span></span><span></span><span></span></span>
+        <div class="meta">
+          <div class="title" data-idx="${i}" spellcheck="false">${escapeHtml(t.title)}</div>
+        </div>
+        <span class="dur">${t.duration ? formatTime(t.duration) : ''}</span>
+        <button class="remove" data-idx="${i}" title="حذف" aria-label="حذف آهنگ">✕</button>
+      `;
+      li.addEventListener('click', (e) => {
+        if(e.target.closest('.remove') || e.target.classList.contains('title')) return;
+        loadTrack(i, true);
+      });
+      const titleEl = li.querySelector('.title');
+      titleEl.addEventListener('dblclick', () => {
+        titleEl.contentEditable = 'true';
+        titleEl.focus();
+        document.getSelection().selectAllChildren(titleEl);
+      });
+      titleEl.addEventListener('blur', () => {
+        titleEl.contentEditable = 'false';
+        const newTitle = titleEl.textContent.trim() || t.title;
+        t.title = newTitle;
+        if(i === currentIndex) npTitle.textContent = newTitle;
+      });
+      titleEl.addEventListener('keydown', e => {
+        if(e.key === 'Enter'){ e.preventDefault(); titleEl.blur(); }
+      });
+      li.querySelector('.remove').addEventListener('click', (e) => {
+        e.stopPropagation();
+        removeTrack(i);
+      });
+      trackList.appendChild(li);
+    });
+  }
+
+  function escapeHtml(str){
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  function removeTrack(i){
+    URL.revokeObjectURL(tracks[i].url);
+    const wasCurrent = i === currentIndex;
+    tracks.splice(i, 1);
+    if(tracks.length === 0){
+      currentIndex = -1;
+      player.pause();
+      player.removeAttribute('src');
+      showEmptyNowPlaying();
+    } else if(wasCurrent){
+      const nextIdx = Math.min(i, tracks.length - 1);
+      loadTrack(nextIdx, false);
+    } else if(i < currentIndex){
+      currentIndex -= 1;
+    }
+    renderPlaylist();
+  }
+
+  // ---- Player ----
+  function showEmptyNowPlaying(){
+    npEmpty.style.display = 'block';
+    npContent.style.display = 'none';
+  }
+
+  function loadTrack(i, autoplay){
+    currentIndex = i;
+    const t = tracks[i];
+    player.src = t.url;
+    npEmpty.style.display = 'none';
+    npContent.style.display = 'block';
+    npTitle.textContent = t.title;
+    npSub.textContent = autoplay ? 'در حال پخش' : 'آماده پخش';
+    if(autoplay){
+      player.play().catch(()=>{});
+    }
+    renderPlaylist();
+    ensureVisualizer();
+  }
+
+  playBtn.addEventListener('click', () => {
+    if(currentIndex === -1) return;
+    if(player.paused) player.play().catch(()=>{});
+    else player.pause();
+  });
+
+  player.addEventListener('play', () => {
+    playIcon.outerHTML = playIcon.outerHTML; // no-op guard
+    document.getElementById('playIcon').innerHTML = ICON_PAUSE;
+    npSub.textContent = 'در حال پخش';
+    renderPlaylist();
+    startViz();
+  });
+  player.addEventListener('pause', () => {
+    document.getElementById('playIcon').innerHTML = ICON_PLAY;
+    npSub.textContent = 'مکث شده';
+    renderPlaylist();
+    stopViz();
+  });
+
+  player.addEventListener('loadedmetadata', () => {
+    if(currentIndex >= 0){
+      tracks[currentIndex].duration = player.duration;
+      durTimeEl.textContent = formatTime(player.duration);
+      renderPlaylist();
+    }
+  });
+
+  player.addEventListener('timeupdate', () => {
+    if(!player.duration) return;
+    seek.value = (player.currentTime / player.duration) * 100;
+    curTimeEl.textContent = formatTime(player.currentTime);
+  });
+
+  seek.addEventListener('input', () => {
+    if(!player.duration) return;
+    player.currentTime = (seek.value / 100) * player.duration;
+  });
+
+  player.addEventListener('ended', () => {
+    if(repeatOne){
+      player.currentTime = 0;
+      player.play();
+    } else if(currentIndex < tracks.length - 1){
+      loadTrack(currentIndex + 1, true);
+    } else {
+      npSub.textContent = 'پخش تمام شد';
+    }
+  });
+
+  prevBtn.addEventListener('click', () => {
+    if(currentIndex > 0) loadTrack(currentIndex - 1, true);
+  });
+  nextBtn.addEventListener('click', () => {
+    if(currentIndex < tracks.length - 1) loadTrack(currentIndex + 1, true);
+  });
+
+  repeatBtn.addEventListener('click', () => {
+    repeatOne = !repeatOne;
+    repeatBtn.classList.toggle('on', repeatOne);
+    repeatBtn.title = repeatOne ? 'تکرار فعال است' : 'تکرار همین آهنگ';
+  });
+
+  volume.addEventListener('input', () => { player.volume = volume.value; });
+
+  // ---- Visualizer ----
+  let audioCtx, analyser, sourceNode, dataArray, rafId;
+
+  function ensureVisualizer(){
+    if(audioCtx) return;
+    try{
+      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+      sourceNode = audioCtx.createMediaElementSource(player);
+      analyser = audioCtx.createAnalyser();
+      analyser.fftSize = 64;
+      sourceNode.connect(analyser);
+      analyser.connect(audioCtx.destination);
+      dataArray = new Uint8Array(analyser.frequencyBinCount);
+    }catch(e){ /* visualization is optional */ }
+  }
+
+  function startViz(){
+    if(!analyser){ return; }
+    if(audioCtx.state === 'suspended') audioCtx.resume();
+    cancelAnimationFrame(rafId);
+    drawViz();
+  }
+  function stopViz(){
+    cancelAnimationFrame(rafId);
+    drawIdleViz();
+  }
+
+  function resizeCanvas(){
+    const ratio = window.devicePixelRatio || 1;
+    viz.width = viz.clientWidth * ratio;
+    viz.height = viz.clientHeight * ratio;
+  }
+  window.addEventListener('resize', resizeCanvas);
+
+  const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
+
+  function drawViz(){
+    rafId = requestAnimationFrame(drawViz);
+    if(!viz.width) resizeCanvas();
+    analyser.getByteFrequencyData(dataArray);
+    vizCtx.clearRect(0,0,viz.width, viz.height);
+    const barCount = dataArray.length;
+    const gap = 3 * (window.devicePixelRatio||1);
+    const barWidth = (viz.width - gap*(barCount-1)) / barCount;
+    for(let i=0;i<barCount;i++){
+      const v = dataArray[i] / 255;
+      const h = Math.max(3, v * viz.height);
+      const x = i * (barWidth + gap);
+      const y = viz.height - h;
+      vizCtx.fillStyle = accentColor;
+      vizCtx.globalAlpha = 0.55 + v*0.45;
+      roundRect(vizCtx, x, y, barWidth, h, Math.min(4, barWidth/2));
+    }
+    vizCtx.globalAlpha = 1;
+  }
+
+  function drawIdleViz(){
+    if(!viz.width) resizeCanvas();
+    vizCtx.clearRect(0,0,viz.width, viz.height);
+    const barCount = 32;
+    const gap = 3 * (window.devicePixelRatio||1);
+    const barWidth = (viz.width - gap*(barCount-1)) / barCount;
+    for(let i=0;i<barCount;i++){
+      const h = 3 * (window.devicePixelRatio||1);
+      const x = i * (barWidth + gap);
+      const y = viz.height - h;
+      vizCtx.fillStyle = accentColor;
+      vizCtx.globalAlpha = 0.25;
+      roundRect(vizCtx, x, y, barWidth, h, 2);
+    }
+    vizCtx.globalAlpha = 1;
+  }
+
+  function roundRect(ctx, x, y, w, h, r){
+    ctx.beginPath();
+    ctx.moveTo(x+r, y);
+    ctx.arcTo(x+w, y, x+w, y+h, r);
+    ctx.arcTo(x+w, y+h, x, y+h, r);
+    ctx.arcTo(x, y+h, x, y, r);
+    ctx.arcTo(x, y, x+w, y, r);
+    ctx.closePath();
+    ctx.fill();
+  }
+
+  // initial idle bars once canvas has size
+  requestAnimationFrame(() => { resizeCanvas(); drawIdleViz(); });
+})();
+</script>
+
+</body>
+</html>
