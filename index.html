@@ -1,781 +1,1350 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>ریل — پخش‌کنندهٔ آهنگ‌های شما</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>mxzx | فروش اسکین سلاح کانتر استرایک</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg: #1B1F2A;
-    --surface: #232939;
-    --surface-2: #2C3346;
-    --line: #363E54;
-    --accent: #E8A33D;
-    --accent-dim: rgba(232,163,61,0.16);
-    --text: #F1EDE4;
-    --muted: #909AB4;
-    --danger: #E2725B;
-    --radius-lg: 22px;
-    --radius-sm: 10px;
+    --bg: #101208;
+    --bg-2: #171a10;
+    --panel: #1b1e14;
+    --panel-2: #23271a;
+    --line: #33381f;
+    --brass: #c99a3e;
+    --brass-bright: #e8b653;
+    --rust: #7a3226;
+    --text: #ece7d6;
+    --muted: #93967f;
+    --radius: 3px;
   }
+
   *{ box-sizing: border-box; }
-  html,body{ height:100%; }
+
+  html{ scroll-behavior: smooth; }
+
   body{
-    margin:0;
-    background:
-      radial-gradient(1200px 600px at 85% -10%, #2A2140 0%, transparent 60%),
-      radial-gradient(900px 500px at -10% 110%, #1E2C34 0%, transparent 55%),
-      var(--bg);
+    margin: 0;
+    background: var(--bg);
+    background-image:
+      linear-gradient(180deg, rgba(0,0,0,0.15), rgba(0,0,0,0) 300px),
+      repeating-linear-gradient(0deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 3px);
     color: var(--text);
-    font-family: 'Vazirmatn', 'Segoe UI', Tahoma, sans-serif;
-    min-height:100vh;
-    padding: 28px 20px 60px;
+    font-family: 'Vazirmatn', sans-serif;
+    line-height: 1.7;
   }
+
+  .mono{ font-family: 'IBM Plex Mono', monospace; direction: ltr; unicode-bidi: isolate; }
+
   a{ color: inherit; }
-  ::selection{ background: var(--accent-dim); }
 
-  .wrap{ max-width: 1040px; margin: 0 auto; }
+  .wrap{
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 28px;
+  }
 
-  header.top{
-    display:flex;
-    align-items:baseline;
-    justify-content:space-between;
-    gap:16px;
-    margin-bottom: 26px;
-    flex-wrap: wrap;
+  /* ---------- header ---------- */
+  header{
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    background: rgba(16,18,8,0.86);
+    backdrop-filter: blur(8px);
+    border-bottom: 1px solid var(--line);
+  }
+  .nav{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 0;
   }
   .brand{
-    display:flex;
-    align-items:center;
-    gap:12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 1.2rem;
+    letter-spacing: 1px;
+    direction: ltr;
   }
   .brand-mark{
-    width:40px;height:40px;
-    border-radius:50%;
-    border:2.5px solid var(--accent);
-    position:relative;
-    flex-shrink:0;
+    width: 34px; height: 34px;
+    border: 1.5px solid var(--brass);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    position: relative;
+    transform: rotate(45deg);
+    flex-shrink: 0;
   }
-  .brand-mark::before{
+  .brand-mark::after{
     content:"";
-    position:absolute; inset:9px;
-    border-radius:50%;
-    background: var(--accent);
+    width: 12px; height: 12px;
+    background: var(--brass);
+    transform: rotate(-45deg);
   }
-  .brand h1{
-    font-size: 1.5rem;
-    font-weight: 800;
-    margin:0;
-    letter-spacing: 0.5px;
-  }
-  .brand p{
-    margin: 2px 0 0;
-    font-size: 0.86rem;
+  .nav-links{
+    display: flex;
+    gap: 28px;
+    font-size: 0.95rem;
     color: var(--muted);
   }
-  .clear-all{
-    background:none;
-    border:1px solid var(--line);
-    color: var(--muted);
-    padding: 9px 16px;
-    border-radius: 999px;
-    font-family:inherit;
-    font-size: 0.85rem;
-    cursor:pointer;
-    transition: border-color .15s, color .15s;
+  .nav-links a{ text-decoration: none; transition: color .15s ease; }
+  .nav-links a:hover{ color: var(--brass-bright); }
+  .nav-cta{
+    border: 1px solid var(--brass);
+    color: var(--brass-bright);
+    padding: 8px 18px;
+    border-radius: var(--radius);
+    font-size: 0.9rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background .15s ease, color .15s ease, transform .12s ease;
   }
-  .clear-all:hover{ border-color: var(--danger); color: var(--danger); }
-  .clear-all:disabled{ opacity:.4; cursor:default; }
-  .clear-all:disabled:hover{ border-color: var(--line); color: var(--muted); }
+  .nav-cta:hover{
+    background: var(--brass);
+    color: #14160d;
+    transform: translateY(-1px);
+  }
+  @media (max-width: 720px){ .nav-links{ display:none; } }
 
-  /* Upload zone */
-  .dropzone{
-    border: 1.5px dashed var(--line);
-    border-radius: var(--radius-lg);
-    padding: 30px 24px;
-    text-align:center;
-    cursor:pointer;
-    background: var(--surface);
-    transition: border-color .18s, background .18s;
+  /* ---------- hero ---------- */
+  .hero{
+    position: relative;
+    padding: 70px 0 48px;
+    overflow: hidden;
+  }
+  .crosshair-bg{
+    position: absolute;
+    inset: 0;
+    opacity: 0.45;
+    pointer-events: none;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size: 64px 64px;
+    mask-image: radial-gradient(ellipse 70% 60% at 70% 30%, black, transparent);
+  }
+  .hero-grid{
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    align-items: center;
+    animation: hero-rise .7s cubic-bezier(.2,.7,.2,1) both;
+  }
+  @keyframes hero-rise{
+    from{ opacity: 0; transform: translateY(14px); }
+    to{ opacity: 1; transform: translateY(0); }
+  }
+  @media (prefers-reduced-motion: reduce){ .hero-grid{ animation: none; } }
+  @media (max-width: 900px){ .hero-grid{ grid-template-columns: 1fr; } }
+
+  .kicker{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.82rem;
+    color: var(--brass-bright);
+    border: 1px solid var(--line);
+    padding: 5px 12px;
+    border-radius: 999px;
     margin-bottom: 22px;
   }
-  .dropzone.drag{
-    border-color: var(--accent);
-    background: var(--accent-dim);
-  }
-  .dropzone svg{ width: 30px; height:30px; color: var(--accent); margin-bottom: 10px; }
-  .dropzone h2{
-    font-size: 1.02rem;
-    margin: 0 0 4px;
-    font-weight: 600;
-  }
-  .dropzone p{
-    margin: 0;
-    color: var(--muted);
-    font-size: 0.84rem;
-  }
-  .dropzone .hint{
-    margin-top: 10px;
-    font-size: 0.76rem;
-    color: var(--muted);
-    opacity: .75;
-  }
-  input[type=file]{ display:none; }
+  .kicker .dot{ width:6px; height:6px; border-radius:50%; background:#6fbf6f; box-shadow:0 0 6px #6fbf6f; }
 
-  /* Layout */
-  .layout{
-    display:grid;
-    grid-template-columns: 1fr 340px;
-    gap: 20px;
-    align-items:start;
+  h1{
+    font-size: clamp(2.1rem, 4vw, 3.05rem);
+    line-height: 1.28;
+    font-weight: 800;
+    margin: 0 0 20px;
   }
-  @media (max-width: 860px){
-    .layout{ grid-template-columns: 1fr; }
-    .now-playing{ order:-1; }
+  h1 span{ color: var(--brass-bright); }
+
+  .hero-desc{
+    color: var(--muted);
+    font-size: 1.05rem;
+    max-width: 46ch;
+    margin: 0 0 32px;
   }
 
-  /* Playlist */
-  .playlist-card{
-    background: var(--surface);
-    border-radius: var(--radius-lg);
-    overflow:hidden;
-    border: 1px solid var(--line);
+  .stat-row{
+    display: flex;
+    gap: 30px;
+    margin-bottom: 6px;
   }
-  .playlist-head{
-    padding: 16px 20px 10px;
-    font-size: 0.82rem;
-    color: var(--muted);
+  .stat b{
+    display: block;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.35rem;
+    color: var(--brass-bright);
   }
-  ul.tracks{ list-style:none; margin:0; padding: 0 8px 10px; }
-  .track{
-    display:flex;
-    align-items:center;
-    gap:12px;
-    padding: 11px 12px;
-    border-radius: var(--radius-sm);
-    cursor:pointer;
-    transition: background .12s;
-  }
-  .track:hover{ background: var(--surface-2); }
-  .track.active{ background: var(--accent-dim); }
-  .track .num{
-    width: 22px;
-    text-align:center;
-    font-variant-numeric: tabular-nums;
-    color: var(--muted);
-    font-size: 0.85rem;
-    flex-shrink:0;
-  }
-  .track.active .num{ color: var(--accent); }
-  .eq{
-    width:22px; height:16px;
-    display:none;
-    align-items:flex-end;
-    gap:2px;
-    flex-shrink:0;
-  }
-  .track.active.playing .eq{ display:flex; }
-  .track.active.playing .num{ display:none; }
-  .eq span{
-    width:3px;
-    background: var(--accent);
-    border-radius: 2px;
-    animation: eqbounce 0.9s ease-in-out infinite;
-  }
-  .eq span:nth-child(1){ height:40%; animation-delay: -0.6s; }
-  .eq span:nth-child(2){ height:100%; animation-delay: -0.3s; }
-  .eq span:nth-child(3){ height:65%; animation-delay: -0.9s; }
-  @keyframes eqbounce{
-    0%,100%{ transform: scaleY(0.4); }
-    50%{ transform: scaleY(1); }
-  }
-  .track .meta{ flex:1; min-width:0; }
-  .track .title{
-    font-size: 0.92rem;
-    font-weight: 500;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-    outline:none;
-  }
-  .track .title[contenteditable="true"]{
-    background: var(--surface-2);
-    border-radius: 6px;
-    padding: 1px 4px;
-  }
-  .track .dur{
-    font-size: 0.78rem;
-    color: var(--muted);
-    font-variant-numeric: tabular-nums;
-    flex-shrink:0;
-  }
-  .track .remove{
-    background:none;
-    border:none;
-    color: var(--muted);
-    cursor:pointer;
-    font-size: 1rem;
-    line-height:1;
-    padding: 4px 6px;
-    border-radius:6px;
-    flex-shrink:0;
-  }
-  .track .remove:hover{ color: var(--danger); background: rgba(226,114,91,0.12); }
-
-  .empty-state{
-    padding: 40px 24px 44px;
-    text-align:center;
-    color: var(--muted);
-  }
-  .empty-state p{ margin:4px 0; font-size: 0.88rem; }
-  .empty-state p.lead{ color: var(--text); font-weight:500; font-size: 0.95rem; }
-
-  /* Now playing */
-  .now-playing{
-    background: var(--surface);
-    border: 1px solid var(--line);
-    border-radius: var(--radius-lg);
-    padding: 22px;
-    position: sticky;
-    top: 20px;
-  }
-  .np-empty{
-    text-align:center;
-    color: var(--muted);
-    padding: 30px 6px;
-    font-size: 0.88rem;
-  }
-  canvas#viz{
-    width:100%;
-    height:64px;
-    display:block;
-    margin-bottom: 14px;
-    border-radius: 10px;
-  }
-  .np-title{
-    font-size: 1.08rem;
-    font-weight: 700;
-    margin: 0 0 2px;
-    white-space:nowrap;
-    overflow:hidden;
-    text-overflow:ellipsis;
-  }
-  .np-sub{
+  .stat span{
     font-size: 0.8rem;
     color: var(--muted);
-    margin: 0 0 16px;
   }
-  .seek-row{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    margin-bottom: 14px;
+
+  /* gun display */
+  .gun-frame{
+    position: relative;
+    background: linear-gradient(160deg, var(--panel), var(--bg-2));
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 36px 22px;
+    min-height: 300px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
-  .seek-row span{
-    font-size: 0.74rem;
+  .gun-frame img{
+    width: 100%;
+    max-width: 460px;
+    filter: drop-shadow(0 18px 30px rgba(0,0,0,0.55));
+  }
+  .corner{
+    position: absolute;
+    width: 18px; height: 18px;
+    border: 2px solid var(--brass);
+  }
+  .corner.tl{ top:-1px; left:-1px; border-left:2px solid var(--brass); border-top:2px solid var(--brass); border-right:none; border-bottom:none; }
+  .corner.br{ bottom:-1px; right:-1px; border-right:2px solid var(--brass); border-bottom:2px solid var(--brass); border-left:none; border-top:none; }
+
+  /* ---------- product / purchase section ---------- */
+  .product{
+    padding: 30px 0 70px;
+  }
+  .catalog{
+    display: grid;
+    gap: 22px;
+  }
+
+  .product-card{
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-top: 2px solid var(--brass);
+    border-radius: 8px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    overflow: hidden;
+    box-shadow: 0 24px 50px -24px rgba(0,0,0,0.6);
+    transition: box-shadow .2s ease, transform .2s ease;
+  }
+  .product-card:hover{
+    box-shadow: 0 30px 60px -22px rgba(0,0,0,0.7);
+    transform: translateY(-2px);
+  }
+  @media (max-width: 860px){ .product-card{ grid-template-columns: 1fr; } }
+
+  .product-info{
+    padding: 40px;
+    border-left: 1px solid var(--line);
+  }
+  @media (max-width: 860px){ .product-info{ border-left:none; border-top: 1px solid var(--line); } }
+
+  .product-info h2{
+    font-size: 1.5rem;
+    margin: 0 0 6px;
+  }
+  .product-info .sub{
     color: var(--muted);
-    font-variant-numeric: tabular-nums;
-    width: 34px;
-    flex-shrink:0;
+    font-size: 0.92rem;
+    margin-bottom: 22px;
   }
-  input[type=range]{
-    -webkit-appearance:none;
-    appearance:none;
-    width:100%;
-    height:4px;
-    border-radius:99px;
-    background: var(--line);
-    outline:none;
-  }
-  input[type=range]::-webkit-slider-thumb{
-    -webkit-appearance:none;
-    width:13px;height:13px;
-    border-radius:50%;
-    background: var(--accent);
-    cursor:pointer;
-    border: none;
-  }
-  input[type=range]::-moz-range-thumb{
-    width:13px;height:13px;
-    border-radius:50%;
-    background: var(--accent);
-    cursor:pointer;
-    border:none;
-  }
-  .controls{
-    display:flex;
-    align-items:center;
-    justify-content:center;
+
+  .spec-list{
+    list-style: none;
+    padding: 0; margin: 0 0 26px;
+    display: grid;
     gap: 10px;
-    margin-bottom: 18px;
   }
-  .ctrl-btn{
-    background:none;
-    border:none;
-    color: var(--text);
-    cursor:pointer;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:8px;
-    border-radius:50%;
-    transition: background .15s, color .15s;
-  }
-  .ctrl-btn:hover{ background: var(--surface-2); }
-  .ctrl-btn:disabled{ opacity:.35; cursor:default; }
-  .ctrl-btn:disabled:hover{ background:none; }
-  .ctrl-btn.play{
-    background: var(--accent);
-    color: #1B1F2A;
-    width:50px; height:50px;
-  }
-  .ctrl-btn.play:hover{ background: #f0b25c; }
-  .ctrl-btn.repeat.on{ color: var(--accent); }
-  .ctrl-btn svg{ width:20px; height:20px; }
-  .ctrl-btn.play svg{ width:22px; height:22px; }
-
-  .volume-row{
-    display:flex;
-    align-items:center;
-    gap:10px;
-  }
-  .volume-row svg{ width:16px; height:16px; color: var(--muted); flex-shrink:0; }
-
-  footer.note{
-    text-align:center;
+  .spec-list li{
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.9rem;
+    border-bottom: 1px dashed var(--line);
+    padding-bottom: 10px;
     color: var(--muted);
+  }
+  .spec-list li b{ color: var(--text); font-weight: 500; }
+  .spec-list li .v{ font-family:'IBM Plex Mono', monospace; direction: ltr; color: var(--brass-bright); }
+
+  .price-tag{
+    display: flex;
+    align-items: baseline;
+    gap: 10px;
+    margin-bottom: 26px;
+    padding: 16px 20px;
+    background: linear-gradient(135deg, rgba(201,154,62,0.12), rgba(201,154,62,0.02));
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    width: fit-content;
+  }
+  .price-tag .amount{
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 2.3rem;
+    font-weight: 600;
+    color: var(--brass-bright);
+    direction: ltr;
+  }
+  .price-tag .unit{ color: var(--muted); font-size: 0.95rem; }
+
+  .field{
+    margin-bottom: 16px;
+  }
+  .field label{
+    display: block;
+    font-size: 0.88rem;
+    color: var(--muted);
+    margin-bottom: 8px;
+  }
+  .field input{
+    width: 100%;
+    background: var(--bg-2);
+    border: 1px solid var(--line);
+    color: var(--text);
+    padding: 13px 14px;
+    border-radius: var(--radius);
+    font-family: 'Vazirmatn', sans-serif;
+    font-size: 0.95rem;
+    direction: ltr;
+    text-align: left;
+  }
+  .field input::placeholder{ color: #5c5f4c; }
+  .field input:focus{
+    outline: none;
+    border-color: var(--brass);
+  }
+  .field .hint{
     font-size: 0.76rem;
-    margin-top: 22px;
-    opacity: .8;
+    color: #6b6e5a;
+    margin-top: 6px;
+  }
+  .field.error input{ border-color: var(--rust); }
+  .field .err-msg{
+    font-size: 0.78rem;
+    color: #d98a7b;
+    margin-top: 6px;
+    display: none;
+  }
+  .field.error .err-msg{ display: block; }
+
+  .buy-btn{
+    display: block;
+    width: 100%;
+    background: var(--brass);
+    color: #171a10;
+    border: none;
+    padding: 15px 20px;
+    font-family: 'Vazirmatn', sans-serif;
+    font-weight: 700;
+    font-size: 1rem;
+    border-radius: var(--radius);
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    transition: background .15s ease, transform .1s ease;
+  }
+  .buy-btn:hover{ background: var(--brass-bright); transform: translateY(-1px); box-shadow: 0 10px 24px -10px rgba(201,154,62,0.5); }
+  .buy-btn:active{ transform: translateY(1px); }
+
+  .trust-line{
+    display:flex;
+    gap: 16px;
+    margin-top: 16px;
+    font-size: 0.78rem;
+    color: var(--muted);
+    flex-wrap: wrap;
+  }
+  .trust-line span{ display:flex; align-items:center; gap:6px; }
+  .trust-line span::before{ content:"●"; color:#6fbf6f; font-size: 0.6rem; }
+
+  /* result panel (hidden until purchase) */
+  .result-panel{
+    display: none;
+    margin-top: 20px;
+    background: var(--bg-2);
+    border: 1px solid var(--brass);
+    border-radius: var(--radius);
+    padding: 20px;
+  }
+  .result-panel.show{ display: block; animation: reveal .35s ease; }
+  @keyframes reveal{ from{ opacity:0; transform: translateY(-6px);} to{ opacity:1; transform: translateY(0);} }
+  .result-panel h3{
+    margin: 0 0 10px;
+    font-size: 1rem;
+    color: var(--brass-bright);
+  }
+  .result-panel p{
+    margin: 0 0 14px;
+    color: var(--muted);
+    font-size: 0.9rem;
+  }
+  .tg-row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: var(--panel);
+    border: 1px solid var(--line);
+    padding: 12px 16px;
+    border-radius: var(--radius);
+    margin-bottom: 12px;
+  }
+  .tg-row .handle{
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--brass-bright);
+    direction: ltr;
+    font-size: 1rem;
+  }
+  .copy-btn{
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--muted);
+    padding: 6px 12px;
+    border-radius: var(--radius);
+    font-size: 0.78rem;
+    cursor: pointer;
+    font-family: 'Vazirmatn', sans-serif;
+  }
+  .copy-btn:hover{ color: var(--text); border-color: var(--brass); }
+  .order-code{
+    font-size: 0.78rem;
+    color: #6b6e5a;
+  }
+  .order-code b{ color: var(--muted); font-family:'IBM Plex Mono', monospace; direction: ltr; display:inline-block; }
+
+  /* image side of card */
+  .product-media{
+    position: relative;
+    background:
+      radial-gradient(circle at 30% 20%, rgba(201,154,62,0.10), transparent 55%),
+      var(--bg-2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 30px;
+  }
+  .product-media img{
+    width: 100%;
+    max-width: 420px;
+    filter: drop-shadow(0 16px 26px rgba(0,0,0,0.5));
+  }
+  .product-media::before,
+  .product-media::after{
+    content: "";
+    position: absolute;
+    width: 16px; height: 16px;
+    border: 2px solid var(--brass);
+    opacity: 0.8;
+  }
+  .product-media::before{ top: 14px; right: 14px; border-left: none; border-bottom: none; }
+  .product-media::after{ bottom: 14px; left: 14px; border-right: none; border-top: none; }
+  .badge{
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background: var(--rust);
+    color: #f1e3d9;
+    font-size: 0.75rem;
+    padding: 5px 12px;
+    border-radius: 999px;
+    font-weight: 600;
+    z-index: 2;
   }
 
-  @media (prefers-reduced-motion: reduce){
-    .eq span{ animation: none; transform: scaleY(0.75); }
+  /* ---------- how it works ---------- */
+  .steps{
+    padding: 20px 0 70px;
+  }
+  .section-head{
+    margin-bottom: 34px;
+  }
+  .section-head h2{
+    font-size: 1.6rem;
+    margin: 0 0 8px;
+  }
+  .section-head p{ color: var(--muted); margin: 0; max-width: 60ch; }
+
+  .step-row{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+  @media (max-width: 780px){ .step-row{ grid-template-columns: 1fr; } }
+  .step{
+    background: var(--panel);
+    border: 1px solid var(--line);
+    border-radius: 6px;
+    padding: 24px;
+    position: relative;
+    transition: border-color .18s ease, transform .18s ease;
+  }
+  .step:hover{
+    border-color: var(--brass);
+    transform: translateY(-3px);
+  }
+  .step .n{
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--brass);
+    font-size: 0.85rem;
+    margin-bottom: 12px;
+    display: block;
+  }
+  .step h4{ margin: 0 0 8px; font-size: 1.02rem; }
+  .step p{ margin: 0; color: var(--muted); font-size: 0.88rem; }
+
+  /* ---------- footer ---------- */
+  footer{
+    border-top: 1px solid var(--line);
+    padding: 26px 0;
+  }
+  .foot-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--muted);
+    font-size: 0.82rem;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .foot-row a{ color: var(--brass-bright); text-decoration: none; }
+
+  /* ---------- cart + checkout ---------- */
+  .nav-actions{ display:flex; align-items:center; gap:10px; }
+  .cart-btn{
+    position:relative; background:transparent; border:1px solid var(--line); color:var(--text);
+    padding:8px 16px; border-radius:var(--radius); font-family:'Vazirmatn',sans-serif;
+    font-size:.9rem; font-weight:600; cursor:pointer; transition:border-color .15s ease;
+  }
+  .cart-btn:hover{ border-color:var(--brass); }
+  .cart-count{
+    display:inline-block; min-width:20px; padding:0 6px; margin-right:6px; border-radius:999px;
+    background:var(--brass); color:#14160d; font-family:'IBM Plex Mono',monospace; font-size:.75rem; text-align:center;
+  }
+  .modal{
+    position:fixed; inset:0; z-index:100; display:none; align-items:center; justify-content:center;
+    padding:20px; background:rgba(8,9,4,.78); backdrop-filter:blur(4px);
+  }
+  .modal.open{ display:flex; animation:reveal .2s ease; }
+  .modal-box{
+    position:relative; width:100%; max-width:480px; max-height:90vh; overflow-y:auto;
+    background:var(--panel); border:1px solid var(--line); border-top:2px solid var(--brass);
+    border-radius:8px; padding:28px; box-shadow:0 30px 70px -20px rgba(0,0,0,.8);
+  }
+  .modal-close{
+    position:absolute; top:10px; left:12px; background:none; border:none; color:var(--muted);
+    font-size:1.6rem; line-height:1; cursor:pointer;
+  }
+  .modal-close:hover{ color:var(--text); }
+  .modal h3{ margin:0 0 6px; font-size:1.15rem; }
+  .modal p{ margin:0 0 16px; color:var(--muted); font-size:.9rem; }
+  .m-item{
+    display:flex; align-items:center; gap:12px; padding:10px 0; border-bottom:1px dashed var(--line);
+  }
+  .m-item img{ width:64px; height:36px; object-fit:cover; border-radius:3px; flex-shrink:0; }
+  .m-item .nm{ flex:1; font-size:.9rem; direction:ltr; text-align:left; }
+  .m-item .pr{ font-family:'IBM Plex Mono',monospace; color:var(--brass-bright); font-size:.9rem; direction:ltr; }
+  .m-item .rm{ background:none; border:none; color:#d98a7b; cursor:pointer; font-size:.8rem; font-family:'Vazirmatn',sans-serif; }
+  .m-total{ display:flex; justify-content:space-between; padding:14px 0; font-weight:700; }
+  .m-total span:last-child{ font-family:'IBM Plex Mono',monospace; color:var(--brass-bright); direction:ltr; }
+  .m-actions{ display:grid; gap:10px; margin-top:6px; }
+  .btn-ghost{
+    display:block; width:100%; text-align:center; text-decoration:none; background:transparent;
+    border:1px solid var(--line); color:var(--text); padding:14px 20px; border-radius:var(--radius);
+    font-family:'Vazirmatn',sans-serif; font-weight:600; font-size:1rem; cursor:pointer;
+  }
+  .btn-ghost:hover{ border-color:var(--brass); }
+  .buy-btn[disabled]{ opacity:.4; cursor:not-allowed; transform:none; box-shadow:none; }
+  .card-num{
+    display:flex; align-items:center; justify-content:space-between; gap:10px; margin:10px 0 16px;
+    padding:14px 16px; background:var(--bg-2); border:1px solid var(--line); border-radius:var(--radius);
+  }
+  .card-num b{ font-family:'IBM Plex Mono',monospace; font-size:1.05rem; letter-spacing:1.5px; color:var(--brass-bright); direction:ltr; }
+  .up-label{
+    display:block; padding:16px; text-align:center; border:1px dashed var(--brass); border-radius:var(--radius);
+    color:var(--brass-bright); cursor:pointer; font-size:.9rem; margin-bottom:14px;
+  }
+  .up-label:hover{ background:rgba(201,154,62,.07); }
+  .up-prev{ display:none; width:100%; max-height:200px; object-fit:contain; margin-bottom:14px; border-radius:var(--radius); border:1px solid var(--line); }
+  .code-row{
+    display:flex; align-items:center; justify-content:space-between; gap:10px; padding:12px 14px; margin-bottom:10px;
+    background:var(--bg-2); border:1px solid var(--line); border-radius:var(--radius);
+  }
+  .code-row .nm{ font-size:.82rem; color:var(--muted); direction:ltr; }
+  .code-row b{ font-family:'IBM Plex Mono',monospace; color:var(--brass-bright); letter-spacing:1px; direction:ltr; }
+  .toast{
+    position:fixed; bottom:24px; left:50%; transform:translateX(-50%) translateY(20px); z-index:120;
+    background:var(--panel-2); border:1px solid var(--brass); color:var(--text); padding:12px 22px;
+    border-radius:var(--radius); font-size:.9rem; opacity:0; pointer-events:none; transition:opacity .2s ease, transform .2s ease;
+  }
+  .toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+
+
+  /* ---------- filters ---------- */
+  .filters{ background: var(--panel); border: 1px solid var(--line); border-radius: 8px; padding: 18px 20px; margin-bottom: 22px; display: grid; gap: 14px; }
+  .f-row{ display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+  .f-search{ flex: 1 1 220px; background: var(--bg-2); border: 1px solid var(--line); color: var(--text); padding: 11px 14px; border-radius: var(--radius); font-family: 'Vazirmatn', sans-serif; font-size: .92rem; }
+  .f-search:focus, .f-select:focus{ outline: none; border-color: var(--brass); }
+  .f-select{ background: var(--bg-2); border: 1px solid var(--line); color: var(--text); padding: 11px 12px; border-radius: var(--radius); font-family: 'Vazirmatn', sans-serif; font-size: .88rem; }
+  .chips{ display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip{ background: transparent; border: 1px solid var(--line); color: var(--muted); padding: 7px 16px; border-radius: 999px; font-family: 'Vazirmatn', sans-serif; font-size: .85rem; cursor: pointer; transition: all .15s ease; }
+  .chip:hover{ border-color: var(--brass); color: var(--text); }
+  .chip.on{ background: var(--brass); border-color: var(--brass); color: #14160d; font-weight: 700; }
+  .f-count{ color: var(--muted); font-size: .84rem; margin-inline-start: auto; }
+  .f-reset{ background: none; border: none; color: var(--brass-bright); cursor: pointer; font-family: 'Vazirmatn', sans-serif; font-size: .84rem; }
+  .f-empty{ display: none; text-align: center; color: var(--muted); padding: 40px 0; }
+
+  /* ---------- compact grid catalog ---------- */
+  .wrap{ max-width: 1240px; }
+  .catalog{ grid-template-columns: repeat(auto-fill, minmax(236px, 1fr)); gap: 20px; }
+  .catalog .product-card{ grid-template-columns: 1fr; border-radius: 10px; display: flex; flex-direction: column; background: linear-gradient(180deg, var(--panel-2), var(--panel) 40%); }
+  .catalog .product-card:hover{ transform: translateY(-5px); border-color: rgba(201,154,62,.55); box-shadow: 0 26px 46px -22px rgba(0,0,0,.75), 0 0 0 1px rgba(201,154,62,.18); }
+  .catalog .product-media{ padding: 0; aspect-ratio: 16 / 10; overflow: hidden; background: var(--bg-2); }
+  .catalog .product-media::before, .catalog .product-media::after{ display: none; }
+  .catalog .product-media img{ width: 100%; height: 100%; max-width: none; object-fit: cover; filter: none; transition: transform .45s ease; }
+  .catalog .product-card:hover .product-media img{ transform: scale(1.06); }
+  .catalog .product-media::selection{ background: none; }
+  .catalog .product-media .badge{ top: 10px; left: 10px; font-size: .68rem; padding: 3px 10px; }
+  .catalog .product-info{ padding: 16px 18px 18px; border-left: none; border-top: 1px solid var(--line); display: flex; flex-direction: column; flex: 1; }
+  .catalog .product-info h2{ font-size: 1rem; line-height: 1.5; margin: 0 0 2px; direction: ltr; text-align: right; unicode-bidi: plaintext; }
+  .catalog .product-info .sub{ font-size: .76rem; margin-bottom: 12px; direction: ltr; text-align: right; }
+  .catalog .spec-list{ margin: 0 0 14px; gap: 6px; }
+  .catalog .spec-list li{ font-size: .8rem; padding-bottom: 6px; }
+  .catalog .price-tag{ margin: auto 0 12px; padding: 8px 14px; width: 100%; justify-content: space-between; }
+  .catalog .price-tag .amount{ font-size: 1.35rem; }
+  .catalog .price-tag .unit{ font-size: .8rem; }
+  .catalog .buy-btn{ padding: 11px 16px; font-size: .92rem; }
+  .catalog .trust-line{ display: none; }
+
+  /* ---------- extra polish ---------- */
+  .hero::before{ content: ""; position: absolute; width: 520px; height: 520px; top: -240px; left: 50%; transform: translateX(-50%); background: radial-gradient(circle, rgba(201,154,62,.16), transparent 65%); pointer-events: none; }
+  h1{ letter-spacing: -.2px; }
+  .section-head h2{ position: relative; display: inline-block; padding-bottom: 10px; }
+  .section-head h2::after{ content: ""; position: absolute; bottom: 0; right: 0; width: 46px; height: 3px; background: var(--brass); border-radius: 2px; }
+  .filters{ background: linear-gradient(180deg, var(--panel-2), var(--panel)); box-shadow: 0 18px 40px -26px rgba(0,0,0,.8); }
+  .stat-row .stat{ border-right: 2px solid var(--brass); padding-right: 12px; }
+  @media (max-width: 480px){
+    .catalog{ grid-template-columns: 1fr; }
+    .wrap{ padding: 0 18px; }
   }
 </style>
 </head>
 <body>
 
-<div class="wrap">
-
-  <header class="top">
+<header>
+  <div class="wrap nav">
     <div class="brand">
-      <div class="brand-mark"></div>
-      <div>
-        <h1>ریل</h1>
-        <p>آهنگ‌هاتو اضافه کن، بدون نصب چیزی گوش بده</p>
-      </div>
+      <span class="brand-mark"></span>
+      mxzx
     </div>
-    <button class="clear-all" id="clearAllBtn" disabled>پاک کردن لیست</button>
-  </header>
-
-  <div class="dropzone" id="dropzone" tabindex="0" role="button" aria-label="افزودن فایل صوتی">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4M12 4l-4 4M12 4l4 4"/><path d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2"/></svg>
-    <h2>آهنگ‌ها را اینجا رها کن</h2>
-    <p>یا کلیک کن تا از حافظهٔ دستگاهت انتخاب کنی</p>
-    <div class="hint">فرمت‌های MP3، WAV، OGG و M4A پشتیبانی می‌شن</div>
-    <input type="file" id="fileInput" accept="audio/*" multiple />
+    <nav class="nav-links">
+      <a href="#product">مشخصات</a>
+      <a href="#steps">روند خرید</a>
+      
+    </nav>
+    <div class="nav-actions"><button type="button" class="cart-btn" id="cartBtn">سبد خرید<span class="cart-count" id="cartCount">0</span></button><a class="nav-cta" href="#product">خرید اسکین</a></div>
   </div>
+</header>
 
-  <div class="layout">
-
-    <div class="playlist-card">
-      <div class="playlist-head" id="playlistHead">هنوز چیزی اضافه نشده</div>
-      <ul class="tracks" id="trackList"></ul>
-      <div class="empty-state" id="emptyState">
-        <p class="lead">هنوز آهنگی اضافه نکردی</p>
-        <p>از بالا یه فایل صوتی انتخاب کن تا اینجا نمایش داده بشه</p>
+<section class="hero">
+  <div class="crosshair-bg"></div>
+  <div class="wrap hero-grid">
+    <div>
+      <div class="kicker"><span class="dot"></span> موجود برای تحویل آنی</div>
+      <h1>اسکین‌های اصل کانتر استرایک، مستقیم روی <span>اینونتوری</span> شما</h1>
+      <p class="hero-desc">
+        هر قبضه با فلوت واقعی و ترید محافظت‌شده عرضه می‌شود. خرید رو ثبت کن، هزینه رو واریز کن و تحویل ظرف چند دقیقه از طریق ترید آفر انجام می‌شود.
+      </p>
+      <div class="stat-row">
+        <div class="stat"><b>۱۴</b><span>آیتم موجود</span></div>
+        <div class="stat"><b class="mono">Field-Tested</b><span>وضعیت ظاهری</span></div>
+        <div class="stat"><b class="mono">۵ دقیقه</b><span>میانگین تحویل</span></div>
       </div>
     </div>
-
-    <div class="now-playing" id="nowPlaying">
-      <div class="np-empty" id="npEmpty">برای شروع پخش، از لیست یک آهنگ انتخاب کن</div>
-
-      <div id="npContent" style="display:none;">
-        <canvas id="viz" width="600" height="64"></canvas>
-        <h3 class="np-title" id="npTitle">—</h3>
-        <p class="np-sub" id="npSub">در حال پخش</p>
-
-        <div class="seek-row">
-          <span id="curTime">۰:۰۰</span>
-          <input type="range" id="seek" min="0" max="100" value="0" step="0.1" aria-label="جایگاه پخش" />
-          <span id="durTime">۰:۰۰</span>
-        </div>
-
-        <div class="controls">
-          <button class="ctrl-btn repeat" id="repeatBtn" title="تکرار همین آهنگ" aria-label="تکرار همین آهنگ">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M17 1l4 4-4 4"/><path d="M3 11V9a4 4 0 014-4h14"/><path d="M7 23l-4-4 4-4"/><path d="M21 13v2a4 4 0 01-4 4H3"/></svg>
-          </button>
-          <button class="ctrl-btn" id="prevBtn" title="آهنگ قبلی" aria-label="آهنگ قبلی">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M6 5h2v14H6zM19 6L9 12l10 6z"/></svg>
-          </button>
-          <button class="ctrl-btn play" id="playBtn" title="پخش" aria-label="پخش">
-            <svg id="playIcon" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          </button>
-          <button class="ctrl-btn" id="nextBtn" title="آهنگ بعدی" aria-label="آهنگ بعدی">
-            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 5h2v14h-2zM5 6l10 6L5 18z"/></svg>
-          </button>
-          <span style="width:36px"></span>
-        </div>
-
-        <div class="volume-row">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M4 9v6h4l5 5V4L8 9H4z"/></svg>
-          <input type="range" id="volume" min="0" max="1" step="0.01" value="1" aria-label="میزان صدا" />
-        </div>
-      </div>
-    </div>
-
   </div>
+</section>
 
-  <footer class="note">آهنگ‌ها فقط داخل همین صفحه و همین مرورگر نگه‌داری می‌شن؛ با رفرش یا بستن صفحه پاک می‌شن.</footer>
+<section class="product" id="product">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>آیتم‌های موجود</h2>
+      <p>روی خرید بزن و بین ادامه خرید یا خرید فوری انتخاب کن.</p>
+    </div>
 
-</div>
+    <div class="filters" id="filters">
+      <div class="f-row">
+        <input type="search" class="f-search" id="fSearch" placeholder="جستجوی اسم اسکین، مثلاً AK یا Desert">
+        <select class="f-select" id="fWear">
+          <option value="">همه وضعیت‌ها</option>
+          <option value="FN">Factory New (FN)</option>
+          <option value="MW">Minimal Wear (MW)</option>
+          <option value="FT">Field-Tested (FT)</option>
+          <option value="WW">Well-Worn (WW)</option>
+          <option value="BS">Battle-Scarred (BS)</option>
+        </select>
+        <select class="f-select" id="fSort">
+          <option value="def">مرتب‌سازی پیش‌فرض</option>
+          <option value="asc">ارزان‌ترین</option>
+          <option value="desc">گران‌ترین</option>
+        </select>
+      </div>
+      <div class="f-row">
+        <div class="chips" id="fChips">
+          <button type="button" class="chip on" data-cat="">همه</button>
+          <button type="button" class="chip" data-cat="rifle">ریفل</button>
+          <button type="button" class="chip" data-cat="pistol">تپانچه</button>
+          <button type="button" class="chip" data-cat="sniper">اسنایپر</button>
+          <button type="button" class="chip" data-cat="shotgun">شاتگان</button>
+        </div>
+        <span class="f-count" id="fCount"></span>
+        <button type="button" class="f-reset" id="fReset">پاک کردن فیلترها</button>
+      </div>
+    </div>
 
-<audio id="player" preload="metadata"></audio>
+    <div class="catalog">
 
+      <!-- item: MAG-7 -->
+      <div class="product-card">
+        <div class="product-media">
+          <span class="badge">تک نسخه موجود</span>
+          <img src="images/mag-7-magnitude.jpg" alt="MAG-7 | MAGnitude" class="gun-img">
+        </div>
+
+        <div class="product-info">
+          <h2>MAG-7 | MAGnitude</h2>
+          <div class="sub">The Genesis Collection · Original Owner Certificate</div>
+
+          <ul class="spec-list">
+            <li><b>وضعیت</b><span class="v">BS</span></li>
+            <li><b>فلوت</b><span class="v">0.635735393</span></li>
+            <li><b>قابلیت ترید</b><span class="v">Tradable</span></li>
+          </ul>
+
+          <div class="price-tag">
+            <span class="amount">60,000</span>
+            <span class="unit">تومان</span>
+          </div>
+
+          <button type="button" class="buy-btn" data-buy>خرید</button>
+
+          <div class="trust-line">
+            <span>ضمانت اصالت آیتم</span>
+            <span>بدون واسطه اضافه</span>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- item: Desert Eagle | Blue Ply -->
+      <div class="product-card">
+        <div class="product-media">
+          <span class="badge">تک نسخه موجود</span>
+          <img src="images/desert-eagle-blue-ply.jpg" alt="Desert Eagle | Blue Ply" class="gun-img">
+        </div>
+
+        <div class="product-info">
+          <h2>Desert Eagle | Blue Ply</h2>
+          <div class="sub">The Prisma 2 Collection</div>
+
+          <ul class="spec-list">
+            <li><b>قابلیت ترید</b><span class="v">Tradable</span></li>
+          </ul>
+
+          <div class="price-tag">
+            <span class="amount">110,000</span>
+            <span class="unit">تومان</span>
+          </div>
+
+          <button type="button" class="buy-btn" data-buy>خرید</button>
+
+          <div class="trust-line">
+            <span>ضمانت اصالت آیتم</span>
+            <span>بدون واسطه اضافه</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- item: Five-SeveN | Silver Quartz -->
+      <div class="product-card">
+        <div class="product-media">
+          <span class="badge">تک نسخه موجود</span>
+          <img src="images/five-seven-silver-quartz.jpg" alt="Five-SeveN | Silver Quartz" class="gun-img">
+        </div>
+
+        <div class="product-info">
+          <h2>Five-SeveN | Silver Quartz</h2>
+          <div class="sub">The Safehouse Collection</div>
+
+          <ul class="spec-list">
+            <li><b>قابلیت ترید</b><span class="v">Tradable</span></li>
+          </ul>
+
+          <div class="price-tag">
+            <span class="amount">59,000</span>
+            <span class="unit">تومان</span>
+          </div>
+
+          <button type="button" class="buy-btn" data-buy>خرید</button>
+
+          <div class="trust-line">
+            <span>ضمانت اصالت آیتم</span>
+            <span>بدون واسطه اضافه</span>
+          </div>
+        </div>
+      </div>
+
+
+      <!-- item: AK-47 | Uncharted -->
+      <div class="product-card">
+        <div class="product-media">
+          <span class="badge">تک نسخه موجود</span>
+          <img src="images/ak-47-uncharted.jpg" alt="AK-47 | Uncharted" class="gun-img">
+        </div>
+
+        <div class="product-info">
+          <h2>AK-47 | Uncharted</h2>
+          <div class="sub">The Prisma Collection</div>
+
+          <ul class="spec-list">
+            <li><b>وضعیت</b><span class="v">FT</span></li>
+            <li><b>فلوت</b><span class="v">0.316137195</span></li>
+            <li><b>قابلیت ترید</b><span class="v">Tradable</span></li>
+          </ul>
+
+          <div class="price-tag">
+            <span class="amount">155,000</span>
+            <span class="unit">تومان</span>
+          </div>
+
+          <button type="button" class="buy-btn" data-buy>خرید</button>
+
+          <div class="trust-line">
+            <span>ضمانت اصالت آیتم</span>
+            <span>بدون واسطه اضافه</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- item: SSG 08 | Grey Smoke -->
+      <div class="product-card">
+        <div class="product-media">
+          <span class="badge">تک نسخه موجود</span>
+          <img src="images/ssg-08-grey-smoke.jpg" alt="SSG 08 | Grey Smoke" class="gun-img">
+        </div>
+
+        <div class="product-info">
+          <h2>SSG 08 | Grey Smoke</h2>
+          <div class="sub">The Ascent Collection</div>
+
+          <ul class="spec-list">
+            <li><b>قابلیت ترید</b><span class="v">Tradable</span></li>
+          </ul>
+
+          <div class="price-tag">
+            <span class="amount">20,000</span>
+            <span class="unit">تومان</span>
+          </div>
+
+          <button type="button" class="buy-btn" data-buy>خرید</button>
+
+          <div class="trust-line">
+            <span>ضمانت اصالت آیتم</span>
+            <span>بدون واسطه اضافه</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- item: CZ75-Auto | Honey Paisley -->
+      <div class="product-card">
+        <div class="product-media">
+          <span class="badge">تک نسخه موجود</span>
+          <img src="images/cz75-auto-honey-paisley.jpg" alt="CZ75-Auto | Honey Paisley" class="gun-img">
+        </div>
+
+        <div class="product-info">
+          <h2>CZ75-Auto | Honey Paisley</h2>
+          <div class="sub">The Harlequin Collection</div>
+
+          <ul class="spec-list">
+            <li><b>وضعیت</b><span class="v">FN</span></li>
+            <li><b>فلوت</b><span class="v">0.058615223</span></li>
+            <li><b>قابلیت ترید</b><span class="v">Tradable</span></li>
+          </ul>
+
+          <div class="price-tag">
+            <span class="amount">20,000</span>
+            <span class="unit">تومان</span>
+          </div>
+
+          <button type="button" class="buy-btn" data-buy>خرید</button>
+
+          <div class="trust-line">
+            <span>ضمانت اصالت آیتم</span>
+            <span>بدون واسطه اضافه</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- item: M4A1-S | Mud-Spec -->
+      <div class="product-card">
+        <div class="product-media">
+          <span class="badge">تک نسخه موجود</span>
+          <img src="images/m4a1-s-mud-spec.jpg" alt="M4A1-S | Mud-Spec" class="gun-img">
+        </div>
+
+        <div class="product-info">
+          <h2>M4A1-S | Mud-Spec</h2>
+          <div class="sub">The Anubis Collection</div>
+
+          <ul class="spec-list">
+            <li><b>وضعیت</b><span class="v">FT</span></li>
+            <li><b>فلوت</b><span class="v">0.301255375</span></li>
+            <li><b>قابلیت ترید</b><span class="v">Tradable</span></li>
+          </ul>
+
+          <div class="price-tag">
+            <span class="amount">80,000</span>
+            <span class="unit">تومان</span>
+          </div>
+
+          <button type="button" class="buy-btn" data-buy>خرید</button>
+
+          <div class="trust-line">
+            <span>ضمانت اصالت آیتم</span>
+            <span>بدون واسطه اضافه</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- item: M4A1-S | Liquidation -->
+      <div class="product-card">
+        <div class="product-media">
+          <span class="badge">تک نسخه موجود</span>
+          <img src="images/m4a1-s-liquidation.jpg" alt="M4A1-S | Liquidation" class="gun-img">
+        </div>
+
+        <div class="product-info">
+          <h2>M4A1-S | Liquidation</h2>
+          <div class="sub">The Genesis Collection</div>
+
+          <ul class="spec-list">
+            <li><b>وضعیت</b><span class="v">WW</span></li>
+            <li><b>فلوت</b><span class="v">0.416830510</span></li>
+            <li><b>قابلیت ترید</b><span class="v">Tradable</span></li>
+          </ul>
+
+          <div class="price-tag">
+            <span class="amount">350,000</span>
+            <span class="unit">تومان</span>
+          </div>
+
+          <button type="button" class="buy-btn" data-buy>خرید</button>
+
+          <div class="trust-line">
+            <span>ضمانت اصالت آیتم</span>
+            <span>بدون واسطه اضافه</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- item: Desert Eagle | Tilted -->
+      <div class="product-card">
+        <div class="product-media">
+          <span class="badge">تک نسخه موجود</span>
+          <img src="images/desert-eagle-tilted.jpg" alt="Desert Eagle | Tilted" class="gun-img">
+        </div>
+
+        <div class="product-info">
+          <h2>Desert Eagle | Tilted</h2>
+          <div class="sub">The Overpass 2024 Collection</div>
+
+          <ul class="spec-list">
+            <li><b>وضعیت</b><span class="v">FT</span></li>
+            <li><b>فلوت</b><span class="v">0.250862479</span></li>
+            <li><b>قابلیت ترید</b><span class="v">Tradable</span></li>
+          </ul>
+
+          <div class="price-tag">
+            <span class="amount">100,000</span>
+            <span class="unit">تومان</span>
+          </div>
+
+          <button type="button" class="buy-btn" data-buy>خرید</button>
+
+          <div class="trust-line">
+            <span>ضمانت اصالت آیتم</span>
+            <span>بدون واسطه اضافه</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- item: Desert Eagle | Blue Ply (FT) -->
+      <div class="product-card">
+        <div class="product-media">
+          <span class="badge">تک نسخه موجود</span>
+          <img src="images/desert-eagle-blue-ply-ft.jpg" alt="Desert Eagle | Blue Ply (FT)" class="gun-img">
+        </div>
+
+        <div class="product-info">
+          <h2>Desert Eagle | Blue Ply (FT)</h2>
+          <div class="sub">The Prisma 2 Collection</div>
+
+          <ul class="spec-list">
+            <li><b>وضعیت</b><span class="v">FT</span></li>
+            <li><b>فلوت</b><span class="v">0.257243723</span></li>
+            <li><b>قابلیت ترید</b><span class="v">Tradable</span></li>
+          </ul>
+
+          <div class="price-tag">
+            <span class="amount">155,000</span>
+            <span class="unit">تومان</span>
+          </div>
+
+          <button type="button" class="buy-btn" data-buy>خرید</button>
+
+          <div class="trust-line">
+            <span>ضمانت اصالت آیتم</span>
+            <span>بدون واسطه اضافه</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- item: StatTrak™ Five-SeveN | Flame Test -->
+      <div class="product-card">
+        <div class="product-media">
+          <span class="badge">تک نسخه موجود</span>
+          <img src="images/stattrak-five-seven-flame-test.jpg" alt="StatTrak™ Five-SeveN | Flame Test" class="gun-img">
+        </div>
+
+        <div class="product-info">
+          <h2>StatTrak™ Five-SeveN | Flame Test</h2>
+          <div class="sub">The Clutch Collection</div>
+
+          <ul class="spec-list">
+            <li><b>وضعیت</b><span class="v">MW</span></li>
+            <li><b>فلوت</b><span class="v">0.141011596</span></li>
+            <li><b>قابلیت ترید</b><span class="v">Tradable</span></li>
+          </ul>
+
+          <div class="price-tag">
+            <span class="amount">154,000</span>
+            <span class="unit">تومان</span>
+          </div>
+
+          <button type="button" class="buy-btn" data-buy>خرید</button>
+
+          <div class="trust-line">
+            <span>ضمانت اصالت آیتم</span>
+            <span>بدون واسطه اضافه</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- item: Souvenir P250 | Drought -->
+      <div class="product-card">
+        <div class="product-media">
+          <span class="badge">تک نسخه موجود</span>
+          <img src="images/souvenir-p250-drought.jpg" alt="Souvenir P250 | Drought" class="gun-img">
+        </div>
+
+        <div class="product-info">
+          <h2>Souvenir P250 | Drought</h2>
+          <div class="sub">The 2021 Mirage Collection</div>
+
+          <ul class="spec-list">
+            <li><b>وضعیت</b><span class="v">FN</span></li>
+            <li><b>فلوت</b><span class="v">0.057634413</span></li>
+            <li><b>قابلیت ترید</b><span class="v">Tradable</span></li>
+          </ul>
+
+          <div class="price-tag">
+            <span class="amount">90,000</span>
+            <span class="unit">تومان</span>
+          </div>
+
+          <button type="button" class="buy-btn" data-buy>خرید</button>
+
+          <div class="trust-line">
+            <span>ضمانت اصالت آیتم</span>
+            <span>بدون واسطه اضافه</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- item: StatTrak™ R8 Revolver | Banana Cannon -->
+      <div class="product-card">
+        <div class="product-media">
+          <span class="badge">تک نسخه موجود</span>
+          <img src="images/stattrak-r8-revolver-banana-cannon.jpg" alt="StatTrak™ R8 Revolver | Banana Cannon" class="gun-img">
+        </div>
+
+        <div class="product-info">
+          <h2>StatTrak™ R8 Revolver | Banana Cannon</h2>
+          <div class="sub">The Revolution Collection</div>
+
+          <ul class="spec-list">
+            <li><b>وضعیت</b><span class="v">BS</span></li>
+            <li><b>فلوت</b><span class="v">0.795782447</span></li>
+            <li><b>قابلیت ترید</b><span class="v">Tradable</span></li>
+          </ul>
+
+          <div class="price-tag">
+            <span class="amount">100,000</span>
+            <span class="unit">تومان</span>
+          </div>
+
+          <button type="button" class="buy-btn" data-buy>خرید</button>
+
+          <div class="trust-line">
+            <span>ضمانت اصالت آیتم</span>
+            <span>بدون واسطه اضافه</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- item: M4A4 | Magnesium -->
+      <div class="product-card">
+        <div class="product-media">
+          <span class="badge">تک نسخه موجود</span>
+          <img src="images/m4a4-magnesium.jpg" alt="M4A4 | Magnesium" class="gun-img">
+        </div>
+
+        <div class="product-info">
+          <h2>M4A4 | Magnesium</h2>
+          <div class="sub">The Danger Zone Collection</div>
+
+          <ul class="spec-list">
+            <li><b>وضعیت</b><span class="v">FT</span></li>
+            <li><b>فلوت</b><span class="v">0.308838427</span></li>
+            <li><b>قابلیت ترید</b><span class="v">Tradable</span></li>
+          </ul>
+
+          <div class="price-tag">
+            <span class="amount">350,000</span>
+            <span class="unit">تومان</span>
+          </div>
+
+          <button type="button" class="buy-btn" data-buy>خرید</button>
+
+          <div class="trust-line">
+            <span>ضمانت اصالت آیتم</span>
+            <span>بدون واسطه اضافه</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="f-empty" id="fEmpty">آیتمی با این فیلترها پیدا نشد.</div>
+  </div>
+</section>
+
+<section class="steps" id="steps">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>روند خرید چطوره</h2>
+      <p>سه قدم ساده تا رسیدن اسکین به اینونتوری شما.</p>
+    </div>
+    <div class="step-row">
+      <div class="step">
+        <span class="n mono">01</span>
+        <h4>انتخاب نوع خرید</h4>
+        <p>روی خرید بزن؛ با «ادامه خرید» آیتم به سبد اضافه میشه و با «خرید فوری» مستقیم میری برای پرداخت.</p>
+      </div>
+      <div class="step">
+        <span class="n mono">02</span>
+        <h4>پرداخت و رسید</h4>
+        <p>هزینه رو کارت به کارت کن و رسید رو آپلود کن تا کد خرید بگیری.</p>
+      </div>
+      <div class="step">
+        <span class="n mono">03</span>
+        <h4>تحویل آیتم</h4>
+        <p>روی دکمه تحویل بزن و توی پیوی تلگرام کد خرید و رسید رو بفرست تا آیتم برات ارسال بشه.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap foot-row">
+    <span>mxzx — بازار اسکین کانتر استرایک</span>
+    <a href="https://t.me/shopcs2mxzx" target="_blank" rel="noopener">ارتباط در تلگرام</a>
+  </div>
+</footer>
+
+
+
+<div class="modal" id="modal"><div class="modal-box" role="dialog" aria-modal="true"><button type="button" class="modal-close" id="modalClose" aria-label="بستن">&times;</button><div id="modalBody"></div></div></div>
+<div class="toast" id="toast"></div>
 <script>
 (function(){
-  const dropzone = document.getElementById('dropzone');
-  const fileInput = document.getElementById('fileInput');
-  const trackList = document.getElementById('trackList');
-  const emptyState = document.getElementById('emptyState');
-  const playlistHead = document.getElementById('playlistHead');
-  const clearAllBtn = document.getElementById('clearAllBtn');
+  var CARD='6219861970840269', TG='https://t.me/tahamxking2';
+  var items=[].slice.call(document.querySelectorAll('.product-card')).map(function(c){
+    var name=c.querySelector('h2').textContent.trim();
+    return {
+      name:name,
+      price:parseInt(c.querySelector('.amount').textContent.replace(/[^0-9]/g,''),10),
+      img:c.querySelector('img').src,
+      prefix:name.split('|')[0].replace(/[^A-Za-z0-9]/g,'').toUpperCase().slice(0,8)
+    };
+  });
+  var cart=[];
+  try{ cart=(JSON.parse(localStorage.getItem('mxzx_cart')||'[]')||[]).filter(function(n){return typeof n==='string';}); }catch(e){ cart=[]; }
+  cart=cart.filter(function(n){return items.some(function(i){return i.name===n;});});
 
-  const player = document.getElementById('player');
-  const npEmpty = document.getElementById('npEmpty');
-  const npContent = document.getElementById('npContent');
-  const npTitle = document.getElementById('npTitle');
-  const npSub = document.getElementById('npSub');
-  const seek = document.getElementById('seek');
-  const curTimeEl = document.getElementById('curTime');
-  const durTimeEl = document.getElementById('durTime');
-  const playBtn = document.getElementById('playBtn');
-  const playIcon = document.getElementById('playIcon');
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  const repeatBtn = document.getElementById('repeatBtn');
-  const volume = document.getElementById('volume');
-  const viz = document.getElementById('viz');
-  const vizCtx = viz.getContext('2d');
-
-  let tracks = [];        // {id, file, url, title, duration}
-  let currentIndex = -1;
-  let repeatOne = false;
-  let idCounter = 0;
-
-  const ICON_PLAY = '<path d="M8 5v14l11-7z"/>';
-  const ICON_PAUSE = '<path d="M6 5h4v14H6zM14 5h4v14h-4z"/>';
-
-  function toPersianDigits(str){
-    const map = {'0':'۰','1':'۱','2':'۲','3':'۳','4':'۴','5':'۵','6':'۶','7':'۷','8':'۸','9':'۹'};
-    return String(str).replace(/[0-9]/g, d => map[d]);
+  var modal=document.getElementById('modal'), body=document.getElementById('modalBody'),
+      toastEl=document.getElementById('toast'), countEl=document.getElementById('cartCount');
+  function byName(n){ return items.filter(function(i){return i.name===n;})[0]; }
+  function fmt(n){ return n.toLocaleString('en-US')+' تومان'; }
+  function save(){ try{ localStorage.setItem('mxzx_cart',JSON.stringify(cart)); }catch(e){} countEl.textContent=cart.length; }
+  function toast(m){ toastEl.textContent=m; toastEl.classList.add('show'); setTimeout(function(){toastEl.classList.remove('show');},2200); }
+  function open(html){ body.innerHTML=html; modal.classList.add('open'); document.body.style.overflow='hidden'; }
+  function close(){ modal.classList.remove('open'); document.body.style.overflow=''; }
+  function total(list){ return list.reduce(function(s,i){return s+i.price;},0); }
+  function rows(list,rm){
+    return list.map(function(i){
+      return '<div class="m-item"><img src="'+i.img+'" alt=""><span class="nm">'+i.name+'</span><span class="pr">'+i.price.toLocaleString('en-US')+'</span>'+
+        (rm?'<button type="button" class="rm" data-rm="'+i.name+'">حذف</button>':'')+'</div>';
+    }).join('');
+  }
+  function copy(t,btn){
+    var done=function(){ if(btn){var o=btn.textContent;btn.textContent='کپی شد';setTimeout(function(){btn.textContent=o;},1500);} };
+    if(navigator.clipboard){ navigator.clipboard.writeText(t).then(done,function(){}); }
   }
 
-  function formatTime(sec){
-    if(!isFinite(sec) || sec < 0) sec = 0;
-    const m = Math.floor(sec/60);
-    const s = Math.floor(sec%60);
-    return toPersianDigits(m) + ':' + toPersianDigits(String(s).padStart(2,'0'));
+  function choice(item){
+    open('<h3>'+item.name+'</h3><p>'+fmt(item.price)+'</p><div class="m-actions">'+
+      '<button type="button" class="buy-btn" id="goInstant">خرید فوری</button>'+
+      '<button type="button" class="btn-ghost" id="goContinue">ادامه خرید</button></div>');
+    document.getElementById('goInstant').onclick=function(){ pay([item],false); };
+    document.getElementById('goContinue').onclick=function(){
+      if(cart.indexOf(item.name)>-1){ toast('این آیتم قبلاً در سبد خرید هست'); }
+      else{ cart.push(item.name); save(); toast('به سبد خرید اضافه شد'); }
+      close();
+    };
   }
 
-  function stripExt(name){
-    return name.replace(/\.[^/.]+$/, '');
-  }
-
-  // ---- Upload handling ----
-  function addFiles(fileListLike){
-    const files = Array.from(fileListLike).filter(f => f.type.startsWith('audio/') || /\.(mp3|wav|ogg|m4a|flac|aac)$/i.test(f.name));
-    if(files.length === 0) return;
-    files.forEach(file => {
-      const track = {
-        id: 'trk_' + (idCounter++),
-        file,
-        url: URL.createObjectURL(file),
-        title: stripExt(file.name),
-        duration: null
-      };
-      tracks.push(track);
-    });
-    renderPlaylist();
-    if(currentIndex === -1 && tracks.length > 0){
-      loadTrack(0, false);
+  function showCart(){
+    var list=cart.map(byName).filter(Boolean);
+    if(!list.length){
+      open('<h3>سبد خرید</h3><p>سبد خرید خالیه.</p><div class="m-actions"><button type="button" class="btn-ghost" id="cClose">ادامه خرید</button></div>');
+      document.getElementById('cClose').onclick=close; return;
     }
-  }
-
-  dropzone.addEventListener('click', () => fileInput.click());
-  dropzone.addEventListener('keydown', e => { if(e.key === 'Enter' || e.key === ' ') fileInput.click(); });
-  fileInput.addEventListener('change', e => { addFiles(e.target.files); fileInput.value = ''; });
-
-  ['dragenter','dragover'].forEach(evt => {
-    dropzone.addEventListener(evt, e => { e.preventDefault(); dropzone.classList.add('drag'); });
-  });
-  ['dragleave','drop'].forEach(evt => {
-    dropzone.addEventListener(evt, e => { e.preventDefault(); dropzone.classList.remove('drag'); });
-  });
-  dropzone.addEventListener('drop', e => {
-    if(e.dataTransfer.files && e.dataTransfer.files.length) addFiles(e.dataTransfer.files);
-  });
-
-  clearAllBtn.addEventListener('click', () => {
-    tracks.forEach(t => URL.revokeObjectURL(t.url));
-    tracks = [];
-    currentIndex = -1;
-    player.pause();
-    player.removeAttribute('src');
-    renderPlaylist();
-    showEmptyNowPlaying();
-  });
-
-  // ---- Playlist rendering ----
-  function renderPlaylist(){
-    trackList.innerHTML = '';
-    const has = tracks.length > 0;
-    emptyState.style.display = has ? 'none' : 'block';
-    clearAllBtn.disabled = !has;
-    playlistHead.textContent = has
-      ? (tracks.length === 1 ? '۱ آهنگ' : toPersianDigits(tracks.length) + ' آهنگ')
-      : 'هنوز چیزی اضافه نشده';
-
-    tracks.forEach((t, i) => {
-      const li = document.createElement('li');
-      li.className = 'track' + (i === currentIndex ? ' active' : '') + (i === currentIndex && !player.paused ? ' playing' : '');
-      li.innerHTML = `
-        <span class="num">${toPersianDigits(i+1)}</span>
-        <span class="eq"><span></span><span></span><span></span></span>
-        <div class="meta">
-          <div class="title" data-idx="${i}" spellcheck="false">${escapeHtml(t.title)}</div>
-        </div>
-        <span class="dur">${t.duration ? formatTime(t.duration) : ''}</span>
-        <button class="remove" data-idx="${i}" title="حذف" aria-label="حذف آهنگ">✕</button>
-      `;
-      li.addEventListener('click', (e) => {
-        if(e.target.closest('.remove') || e.target.classList.contains('title')) return;
-        loadTrack(i, true);
-      });
-      const titleEl = li.querySelector('.title');
-      titleEl.addEventListener('dblclick', () => {
-        titleEl.contentEditable = 'true';
-        titleEl.focus();
-        document.getSelection().selectAllChildren(titleEl);
-      });
-      titleEl.addEventListener('blur', () => {
-        titleEl.contentEditable = 'false';
-        const newTitle = titleEl.textContent.trim() || t.title;
-        t.title = newTitle;
-        if(i === currentIndex) npTitle.textContent = newTitle;
-      });
-      titleEl.addEventListener('keydown', e => {
-        if(e.key === 'Enter'){ e.preventDefault(); titleEl.blur(); }
-      });
-      li.querySelector('.remove').addEventListener('click', (e) => {
-        e.stopPropagation();
-        removeTrack(i);
-      });
-      trackList.appendChild(li);
+    open('<h3>سبد خرید</h3>'+rows(list,true)+'<div class="m-total"><span>جمع کل</span><span>'+fmt(total(list))+'</span></div>'+
+      '<div class="m-actions"><button type="button" class="buy-btn" id="cPay">خرید فوری</button><button type="button" class="btn-ghost" id="cClose">ادامه خرید</button></div>');
+    document.getElementById('cClose').onclick=close;
+    document.getElementById('cPay').onclick=function(){ pay(list,true); };
+    [].forEach.call(body.querySelectorAll('[data-rm]'),function(b){
+      b.onclick=function(){ cart=cart.filter(function(n){return n!==b.getAttribute('data-rm');}); save(); showCart(); };
     });
   }
 
-  function escapeHtml(str){
-    const d = document.createElement('div');
-    d.textContent = str;
-    return d.innerHTML;
+  function pay(list,fromCart){
+    var t=total(list);
+    open('<h3>پرداخت</h3>'+rows(list,false)+'<div class="m-total"><span>مبلغ قابل پرداخت</span><span>'+fmt(t)+'</span></div>'+
+      '<p>هزینه رو به شماره کارت زیر واریز کن، بعد رسید رو آپلود کن.</p>'+
+      '<div class="card-num"><b>'+CARD.replace(/(\d{4})(?=\d)/g,'$1 ')+'</b><button type="button" class="copy-btn" id="cpCard">کپی</button></div>'+
+      '<label class="up-label" for="rcpt" id="upLabel">آپلود رسید پرداخت</label>'+
+      '<input type="file" id="rcpt" accept="image/*" hidden><img class="up-prev" id="upPrev" alt="">'+
+      '<button type="button" class="buy-btn" id="doCode" disabled>ثبت رسید و دریافت کد خرید</button>');
+    document.getElementById('cpCard').onclick=function(){ copy(CARD,this); };
+    var f=document.getElementById('rcpt'), prev=document.getElementById('upPrev'), go=document.getElementById('doCode');
+    f.onchange=function(){
+      if(!f.files||!f.files[0]) return;
+      prev.src=URL.createObjectURL(f.files[0]); prev.style.display='block';
+      document.getElementById('upLabel').textContent='رسید انتخاب شد (برای تغییر دوباره کلیک کن)';
+      go.disabled=false;
+    };
+    go.onclick=function(){ codes(list,fromCart); };
   }
 
-  function removeTrack(i){
-    URL.revokeObjectURL(tracks[i].url);
-    const wasCurrent = i === currentIndex;
-    tracks.splice(i, 1);
-    if(tracks.length === 0){
-      currentIndex = -1;
-      player.pause();
-      player.removeAttribute('src');
-      showEmptyNowPlaying();
-    } else if(wasCurrent){
-      const nextIdx = Math.min(i, tracks.length - 1);
-      loadTrack(nextIdx, false);
-    } else if(i < currentIndex){
-      currentIndex -= 1;
-    }
-    renderPlaylist();
+  function codes(list,fromCart){
+    var out=list.map(function(i){
+      var c=i.prefix+'-'+Math.floor(1000+Math.random()*9000);
+      return {name:i.name,code:c};
+    });
+    if(fromCart){ cart=[]; save(); }
+    open('<h3>رسید ثبت شد</h3><p>کد خرید هر اسکین:</p>'+
+      out.map(function(o,k){
+        return '<div class="code-row"><span class="nm">'+o.name+'</span><b>'+o.code+'</b><button type="button" class="copy-btn" data-cc="'+k+'">کپی</button></div>';
+      }).join('')+
+      '<p>برای تحویل آیتم روی دکمه «تحویل» بزن و بعد توی پیوی تلگرام من با آیدی <b>@tahamxking2</b> بیا (روی اسم بزن تا وارد پیوی بشی). کد خرید و تصویر رسید رو همون‌جا هم بفرست.</p>'+
+      '<div class="m-actions"><a class="buy-btn" href="'+TG+'" target="_blank" rel="noopener">تحویل</a></div>');
+    [].forEach.call(body.querySelectorAll('[data-cc]'),function(b){
+      b.onclick=function(){ copy(out[+b.getAttribute('data-cc')].code,b); };
+    });
   }
 
-  // ---- Player ----
-  function showEmptyNowPlaying(){
-    npEmpty.style.display = 'block';
-    npContent.style.display = 'none';
-  }
-
-  function loadTrack(i, autoplay){
-    currentIndex = i;
-    const t = tracks[i];
-    player.src = t.url;
-    npEmpty.style.display = 'none';
-    npContent.style.display = 'block';
-    npTitle.textContent = t.title;
-    npSub.textContent = autoplay ? 'در حال پخش' : 'آماده پخش';
-    if(autoplay){
-      player.play().catch(()=>{});
-    }
-    renderPlaylist();
-    ensureVisualizer();
-  }
-
-  playBtn.addEventListener('click', () => {
-    if(currentIndex === -1) return;
-    if(player.paused) player.play().catch(()=>{});
-    else player.pause();
+  [].forEach.call(document.querySelectorAll('[data-buy]'),function(b,k){
+    b.onclick=function(){ choice(items[k]); };
   });
-
-  player.addEventListener('play', () => {
-    playIcon.outerHTML = playIcon.outerHTML; // no-op guard
-    document.getElementById('playIcon').innerHTML = ICON_PAUSE;
-    npSub.textContent = 'در حال پخش';
-    renderPlaylist();
-    startViz();
-  });
-  player.addEventListener('pause', () => {
-    document.getElementById('playIcon').innerHTML = ICON_PLAY;
-    npSub.textContent = 'مکث شده';
-    renderPlaylist();
-    stopViz();
-  });
-
-  player.addEventListener('loadedmetadata', () => {
-    if(currentIndex >= 0){
-      tracks[currentIndex].duration = player.duration;
-      durTimeEl.textContent = formatTime(player.duration);
-      renderPlaylist();
-    }
-  });
-
-  player.addEventListener('timeupdate', () => {
-    if(!player.duration) return;
-    seek.value = (player.currentTime / player.duration) * 100;
-    curTimeEl.textContent = formatTime(player.currentTime);
-  });
-
-  seek.addEventListener('input', () => {
-    if(!player.duration) return;
-    player.currentTime = (seek.value / 100) * player.duration;
-  });
-
-  player.addEventListener('ended', () => {
-    if(repeatOne){
-      player.currentTime = 0;
-      player.play();
-    } else if(currentIndex < tracks.length - 1){
-      loadTrack(currentIndex + 1, true);
-    } else {
-      npSub.textContent = 'پخش تمام شد';
-    }
-  });
-
-  prevBtn.addEventListener('click', () => {
-    if(currentIndex > 0) loadTrack(currentIndex - 1, true);
-  });
-  nextBtn.addEventListener('click', () => {
-    if(currentIndex < tracks.length - 1) loadTrack(currentIndex + 1, true);
-  });
-
-  repeatBtn.addEventListener('click', () => {
-    repeatOne = !repeatOne;
-    repeatBtn.classList.toggle('on', repeatOne);
-    repeatBtn.title = repeatOne ? 'تکرار فعال است' : 'تکرار همین آهنگ';
-  });
-
-  volume.addEventListener('input', () => { player.volume = volume.value; });
-
-  // ---- Visualizer ----
-  let audioCtx, analyser, sourceNode, dataArray, rafId;
-
-  function ensureVisualizer(){
-    if(audioCtx) return;
-    try{
-      audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-      sourceNode = audioCtx.createMediaElementSource(player);
-      analyser = audioCtx.createAnalyser();
-      analyser.fftSize = 64;
-      sourceNode.connect(analyser);
-      analyser.connect(audioCtx.destination);
-      dataArray = new Uint8Array(analyser.frequencyBinCount);
-    }catch(e){ /* visualization is optional */ }
-  }
-
-  function startViz(){
-    if(!analyser){ return; }
-    if(audioCtx.state === 'suspended') audioCtx.resume();
-    cancelAnimationFrame(rafId);
-    drawViz();
-  }
-  function stopViz(){
-    cancelAnimationFrame(rafId);
-    drawIdleViz();
-  }
-
-  function resizeCanvas(){
-    const ratio = window.devicePixelRatio || 1;
-    viz.width = viz.clientWidth * ratio;
-    viz.height = viz.clientHeight * ratio;
-  }
-  window.addEventListener('resize', resizeCanvas);
-
-  const accentColor = getComputedStyle(document.documentElement).getPropertyValue('--accent').trim();
-
-  function drawViz(){
-    rafId = requestAnimationFrame(drawViz);
-    if(!viz.width) resizeCanvas();
-    analyser.getByteFrequencyData(dataArray);
-    vizCtx.clearRect(0,0,viz.width, viz.height);
-    const barCount = dataArray.length;
-    const gap = 3 * (window.devicePixelRatio||1);
-    const barWidth = (viz.width - gap*(barCount-1)) / barCount;
-    for(let i=0;i<barCount;i++){
-      const v = dataArray[i] / 255;
-      const h = Math.max(3, v * viz.height);
-      const x = i * (barWidth + gap);
-      const y = viz.height - h;
-      vizCtx.fillStyle = accentColor;
-      vizCtx.globalAlpha = 0.55 + v*0.45;
-      roundRect(vizCtx, x, y, barWidth, h, Math.min(4, barWidth/2));
-    }
-    vizCtx.globalAlpha = 1;
-  }
-
-  function drawIdleViz(){
-    if(!viz.width) resizeCanvas();
-    vizCtx.clearRect(0,0,viz.width, viz.height);
-    const barCount = 32;
-    const gap = 3 * (window.devicePixelRatio||1);
-    const barWidth = (viz.width - gap*(barCount-1)) / barCount;
-    for(let i=0;i<barCount;i++){
-      const h = 3 * (window.devicePixelRatio||1);
-      const x = i * (barWidth + gap);
-      const y = viz.height - h;
-      vizCtx.fillStyle = accentColor;
-      vizCtx.globalAlpha = 0.25;
-      roundRect(vizCtx, x, y, barWidth, h, 2);
-    }
-    vizCtx.globalAlpha = 1;
-  }
-
-  function roundRect(ctx, x, y, w, h, r){
-    ctx.beginPath();
-    ctx.moveTo(x+r, y);
-    ctx.arcTo(x+w, y, x+w, y+h, r);
-    ctx.arcTo(x+w, y+h, x, y+h, r);
-    ctx.arcTo(x, y+h, x, y, r);
-    ctx.arcTo(x, y, x+w, y, r);
-    ctx.closePath();
-    ctx.fill();
-  }
-
-  // initial idle bars once canvas has size
-  requestAnimationFrame(() => { resizeCanvas(); drawIdleViz(); });
+  document.getElementById('cartBtn').onclick=showCart;
+  document.getElementById('modalClose').onclick=close;
+  modal.onclick=function(e){ if(e.target===modal) close(); };
+  document.addEventListener('keydown',function(e){ if(e.key==='Escape') close(); });
+  save();
 })();
 </script>
 
+<script>
+(function(){
+  var cat = document.querySelector('.catalog');
+  var cards = [].slice.call(cat.querySelectorAll('.product-card'));
+  function catOf(n){
+    if(/^(StatTrak™ |Souvenir )?(AK-47|M4A1-S|M4A4)/.test(n)) return 'rifle';
+    if(/SSG 08/.test(n)) return 'sniper';
+    if(/MAG-7/.test(n)) return 'shotgun';
+    return 'pistol';
+  }
+  cards.forEach(function(c,i){
+    var n = c.querySelector('h2').textContent.trim();
+    var w = '';
+    [].forEach.call(c.querySelectorAll('.spec-list li'), function(li){
+      if(li.querySelector('b').textContent.trim()==='وضعیت') w = li.querySelector('.v').textContent.trim();
+    });
+    c.dataset.name = n.toLowerCase();
+    c.dataset.cat = catOf(n);
+    c.dataset.wear = w;
+    c.dataset.price = parseInt(c.querySelector('.amount').textContent.replace(/[^0-9]/g,''),10);
+    c.dataset.idx = i;
+  });
+  var q=document.getElementById('fSearch'), wear=document.getElementById('fWear'), sort=document.getElementById('fSort'),
+      chips=document.getElementById('fChips'), count=document.getElementById('fCount'), empty=document.getElementById('fEmpty'),
+      curCat='';
+  function apply(){
+    var term=q.value.trim().toLowerCase(), shown=0;
+    cards.forEach(function(c){
+      var ok = (!term || c.dataset.name.indexOf(term)>-1) &&
+               (!curCat || c.dataset.cat===curCat) &&
+               (!wear.value || c.dataset.wear===wear.value);
+      c.style.display = ok ? '' : 'none';
+      if(ok) shown++;
+    });
+    var ordered = cards.slice().sort(function(a,b){
+      if(sort.value==='asc') return a.dataset.price-b.dataset.price;
+      if(sort.value==='desc') return b.dataset.price-a.dataset.price;
+      return a.dataset.idx-b.dataset.idx;
+    });
+    ordered.forEach(function(c){ cat.appendChild(c); });
+    count.textContent = shown + ' آیتم از ' + cards.length;
+    empty.style.display = shown ? 'none' : 'block';
+  }
+  q.addEventListener('input',apply);
+  wear.addEventListener('change',apply);
+  sort.addEventListener('change',apply);
+  chips.addEventListener('click',function(e){
+    var b=e.target.closest('.chip'); if(!b) return;
+    [].forEach.call(chips.children,function(x){ x.classList.remove('on'); });
+    b.classList.add('on'); curCat=b.dataset.cat; apply();
+  });
+  document.getElementById('fReset').onclick=function(){
+    q.value=''; wear.value=''; sort.value='def'; curCat='';
+    [].forEach.call(chips.children,function(x,i){ x.classList.toggle('on',i===0); });
+    apply();
+  };
+  apply();
+})();
+</script>
 </body>
 </html>
