@@ -630,6 +630,18 @@
     .catalog{ grid-template-columns: 1fr; }
     .wrap{ padding: 0 18px; }
   }
+  .use-bal{display:block;margin:12px 0;font-size:.88rem;color:var(--muted)}
+  .sell-box{max-width:560px;background:var(--panel);border:1px solid var(--line);border-top:2px solid var(--brass);border-radius:10px;padding:24px}
+  .sell-total{margin:6px 0 14px;font-size:1.05rem}.sell-total b{color:var(--brass-bright);font-family:'IBM Plex Mono',monospace}
+  .sell-note{color:var(--muted);font-size:.8rem;margin:12px 0 0}
+  .acc-row{display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px dashed var(--line);font-size:.9rem;align-items:center}
+  .acc-row b{font-family:'IBM Plex Mono',monospace;color:var(--brass-bright);direction:ltr}
+  .wheel-wrap{position:relative;width:250px;height:250px;margin:16px auto}
+  .wheel-wrap::before{content:"";position:absolute;top:-8px;left:50%;transform:translateX(-50%);border:10px solid transparent;border-top:18px solid var(--brass-bright);z-index:3}
+  .wheel{position:absolute;inset:0;border-radius:50%;border:3px solid var(--brass);transition:transform 4.6s cubic-bezier(.15,.7,.1,1);background:conic-gradient(#2a2e1e 0 45deg,#4a3a17 0 90deg,#2a2e1e 0 135deg,#4a3a17 0 180deg,#2a2e1e 0 225deg,#4a3a17 0 270deg,#2a2e1e 0 315deg,#4a3a17 0 360deg)}
+  .wheel i{position:absolute;left:50%;top:0;height:50%;width:60px;margin-left:-30px;transform-origin:bottom center;text-align:center;font-style:normal;font-size:.72rem;padding-top:12px;color:var(--text);font-weight:700}
+  .hint-s{color:var(--muted);font-size:.82rem;margin:8px 0}
+
 </style>
 </head>
 <body>
@@ -642,10 +654,11 @@
     </div>
     <nav class="nav-links">
       <a href="#product">مشخصات</a>
+      <a href="#sell">فروش اسکین به ما</a>
       <a href="#steps">روند خرید</a>
       
     </nav>
-    <div class="nav-actions"><button type="button" class="cart-btn" id="cartBtn">سبد خرید<span class="cart-count" id="cartCount">0</span></button><a class="nav-cta" href="#product">خرید اسکین</a></div>
+    <div class="nav-actions"><button type="button" class="cart-btn" id="cartBtn">سبد خرید<span class="cart-count" id="cartCount">0</span></button><button type="button" class="cart-btn" id="accBtn">حساب من</button><a class="nav-cta" href="#product">خرید اسکین</a></div>
   </div>
 </header>
 
@@ -1170,6 +1183,21 @@
   </div>
 </section>
 
+<section class="product" id="sell">
+  <div class="wrap">
+    <div class="section-head"><h2>اسکین‌هات رو به ما بفروش</h2><p>لینک ترید استیمت رو بده، قیمت دلاری رو وارد کن؛ مبلغ تومانی با نرخ هر ۱ دلار = ۱۷۰,۰۰۰ تومان خودکار حساب میشه.</p></div>
+    <div class="sell-box">
+      <div class="field"><label>لینک ترید استیم</label><input id="sTrade" dir="ltr" placeholder="https://steamcommunity.com/tradeoffer/new/?partner=...&token=..."></div>
+      <div class="field"><label>اسم اسکین</label><input id="sName" dir="ltr" placeholder="مثلاً AK-47 | Redline (FT)"></div>
+      <div class="field"><label>قیمت اسکین (دلار)</label><input id="sUsd" type="number" min="0" step="0.01" dir="ltr" placeholder="مثلاً 12.5"></div>
+      <div class="sell-total">مبلغ پیشنهادی: <b id="sToman">0</b> تومان</div>
+      <div class="err-msg" id="sErr" style="display:none"></div>
+      <button type="button" class="buy-btn" id="sSend">ارسال درخواست به تلگرام</button>
+      <p class="sell-note">قیمت نهایی بعد از بررسی آیتم توسط ما تایید میشه.</p>
+    </div>
+  </div>
+</section>
+
 <section class="steps" id="steps">
   <div class="wrap">
     <div class="section-head">
@@ -1271,8 +1299,8 @@
   }
 
   function pay(list,fromCart){
-    var t=total(list);
-    open('<h3>پرداخت</h3>'+rows(list,false)+'<div class="m-total"><span>مبلغ قابل پرداخت</span><span>'+fmt(t)+'</span></div>'+
+    var t=total(list), bal=window.MX?MX.bal():0;
+    open('<h3>پرداخت</h3>'+rows(list,false)+'<div class="m-total"><span>مبلغ قابل پرداخت</span><span id="payAmt">'+fmt(t)+'</span></div>'+(bal>0?'<label class="use-bal"><input type="checkbox" id="useBal"> استفاده از اعتبار حساب ('+fmt(Math.min(bal,t))+')</label>':'')+
       '<p>هزینه رو به شماره کارت زیر واریز کن، بعد رسید رو آپلود کن.</p>'+
       '<div class="card-num"><b>'+CARD.replace(/(\d{4})(?=\d)/g,'$1 ')+'</b><button type="button" class="copy-btn" id="cpCard">کپی</button></div>'+
       '<label class="up-label" for="rcpt" id="upLabel">آپلود رسید پرداخت</label>'+
@@ -1287,6 +1315,9 @@
       go.disabled=false;
     };
     go.onclick=function(){ codes(list,fromCart); };
+    window.__useCredit=0;
+    var ub=document.getElementById('useBal');
+    if(ub) ub.onchange=function(){ var u=ub.checked?Math.min(bal,t):0; window.__useCredit=u; document.getElementById('payAmt').textContent=fmt(t-u); if(u>=t) go.disabled=false; else if(!f.files||!f.files[0]) go.disabled=true; };
   }
 
   function codes(list,fromCart){
@@ -1294,13 +1325,14 @@
       var c=i.prefix+'-'+Math.floor(1000+Math.random()*9000);
       return {name:i.name,code:c};
     });
+    var info=window.MX?MX.onOrder(total(list),out,window.__useCredit||0):{q:'',note:''}; window.__useCredit=0;
     if(fromCart){ cart=[]; save(); }
     open('<h3>رسید ثبت شد</h3><p>کد خرید هر اسکین:</p>'+
       out.map(function(o,k){
         return '<div class="code-row"><span class="nm">'+o.name+'</span><b>'+o.code+'</b><button type="button" class="copy-btn" data-cc="'+k+'">کپی</button></div>';
       }).join('')+
       '<p>برای تحویل آیتم روی دکمه «تحویل» بزن و بعد توی پیوی تلگرام من با آیدی <b>@tahamxking2</b> بیا (روی اسم بزن تا وارد پیوی بشی). کد خرید و تصویر رسید رو همون‌جا هم بفرست.</p>'+
-      '<div class="m-actions"><a class="buy-btn" href="'+TG+'" target="_blank" rel="noopener">تحویل</a></div>');
+      info.note+'<div class="m-actions"><a class="buy-btn" href="'+TG+info.q+'" target="_blank" rel="noopener">تحویل</a></div>');
     [].forEach.call(body.querySelectorAll('[data-cc]'),function(b){
       b.onclick=function(){ copy(out[+b.getAttribute('data-cc')].code,b); };
     });
@@ -1376,6 +1408,106 @@
   };
   apply();
 })();
+</script>
+<script>
+(function(){
+  var SALT='CHANGE-ME-mxzx', INV=15000, NEW=10000, MIN=200000, RATE=170000, TGU='https://t.me/tahamxking2', OWN=['tahamxking2','thamxking2'];
+  var PR=[{l:'پوچ',v:0,w:20},{l:'5,000',v:5000,w:20},{l:'10,000',v:10000,w:15},{l:'پوچ',v:0,w:15},{l:'20,000',v:20000,w:12},{l:'5,000',v:5000,w:10},{l:'50,000',v:50000,w:3},{l:'10,000',v:10000,w:5}];
+  var modal=document.getElementById('modal'), body=document.getElementById('modalBody'), db;
+  try{ db=JSON.parse(localStorage.getItem('mxzx_db')||'null'); }catch(e){}
+  if(!db||!db.users) db={cur:'',users:{},pend:{}};
+  function save(){ try{ localStorage.setItem('mxzx_db',JSON.stringify(db)); }catch(e){} }
+  function show(html){ body.innerHTML=html; modal.classList.add('open'); document.body.style.overflow='hidden'; }
+  function fmt(n){ return n.toLocaleString('en-US'); }
+  function h32(s){ var h=2166136261; for(var i=0;i<s.length;i++){ h^=s.charCodeAt(i); h=Math.imul(h,16777619); } return h>>>0; }
+  function norm(t){ return String(t||'').trim().replace(/^@/,'').toLowerCase(); }
+  function inv(tg){ return 'MX-'+('00000'+h32('inv'+tg).toString(36).toUpperCase()).slice(-5); }
+  function act(o,tg){ return String(h32(SALT+o.toUpperCase()+tg)%900000+100000); }
+  function cur(){ return db.users[db.cur]||null; }
+  function copy(t,b){ if(navigator.clipboard) navigator.clipboard.writeText(t); if(b){var o=b.textContent;b.textContent='کپی شد';setTimeout(function(){b.textContent=o;},1400);} }
+  function $(id){ return document.getElementById(id); }
+
+  window.MX={
+    bal:function(){ var u=cur(); return u?u.bal:0; },
+    onOrder:function(total,out,used){
+      var u=cur(), codes=out.map(function(o){return o.code;}).join(', '), note='', msg='سفارش جدید\nکد خرید: '+codes+'\nمبلغ: '+fmt(total)+' تومان';
+      if(u){
+        used=Math.min(used||0,u.bal); u.bal-=used;
+        msg+='\nآیدی تلگرام: @'+u.tg+(used?'\nاستفاده از اعتبار: '+fmt(used)+' تومان':'');
+        if(total>=MIN){ u.spins.push({id:out[0].code,total:total,st:'wait',prize:''}); msg+='\nدرخواست فعال‌سازی گردونه'; note='<p class="hint-s">🎡 این خرید بالای ۲۰۰ هزار تومانه؛ بعد از تایید ما، گردونه‌ات از «حساب من» فعال میشه.</p>'; }
+        save();
+      } else if(total>=MIN){ note='<p class="hint-s">برای گردونه جایزه، دفعه بعد قبل از خرید با آیدی تلگرامت وارد «حساب من» شو.</p>'; }
+      return {q:'?text='+encodeURIComponent(msg),note:note};
+    }
+  };
+
+  function ownerBox(){ return '<h3 style="margin-top:18px">👑 پنل مالک</h3><p class="hint-s">کد خرید و آیدی مشتری رو بزن تا کد فعال‌سازی گردونه‌اش ساخته بشه.</p><div class="field"><input id="oC" dir="ltr" placeholder="کد خرید مثلاً AK47-1234"></div><div class="field"><input id="oT" dir="ltr" placeholder="@آیدی تلگرام مشتری"></div><button type="button" class="buy-btn" id="oG">ساخت کد فعال‌سازی</button><div class="code-row"><b id="oR"></b></div>'; }
+  function acct(){
+    var u=cur();
+    if(!u){
+      show('<h3>ورود / ساخت حساب</h3><p>آیدی تلگرامت رو وارد کن.</p><div class="field"><input id="aTg" dir="ltr" placeholder="@username"><div class="err-msg" id="aErr"></div></div><div class="m-actions"><button type="button" class="buy-btn" id="aGo">ورود</button></div>');
+      $('aGo').onclick=function(){
+        var t=norm($('aTg').value);
+        if(!/^[a-z0-9_]{5,32}$/.test(t)){ $('aErr').textContent='آیدی تلگرام معتبر نیست'; $('aErr').style.display='block'; return; }
+        if(!db.users[t]) db.users[t]={tg:t,bal:0,code:inv(t),by:'',spins:[]};
+        var n=db.users[t]; if(db.pend[n.code]){ n.bal+=db.pend[n.code]; delete db.pend[n.code]; }
+        db.cur=t; save(); acct();
+      };
+      return;
+    }
+    var sp=u.spins.map(function(s,i){
+      var a=s.st==='wait'?'<input class="f-search" id="ac'+i+'" dir="ltr" placeholder="کد فعال‌سازی" style="max-width:130px"> <button type="button" class="copy-btn" data-ac="'+i+'">فعال‌سازی</button>':s.st==='ready'?'<button type="button" class="buy-btn" style="padding:6px 14px;width:auto" data-sp="'+i+'">بچرخون</button>':'<b>'+(s.prize||'')+'</b>';
+      return '<div class="acc-row"><span>گردونه '+s.id+'</span>'+a+'</div>';
+    }).join('');
+    show('<h3>حساب @'+u.tg+(OWN.indexOf(u.tg)>-1?' (مالک)':'')+'</h3><div class="acc-row"><span>اعتبار حساب</span><b>'+fmt(u.bal)+' تومان</b></div>'+
+      '<div class="acc-row"><span>کد دعوت تو</span><b>'+u.code+'</b><button type="button" class="copy-btn" id="aCp">کپی</button></div>'+
+      '<p class="hint-s">هرکس کد تو رو ثبت کنه ۱۰ هزار تومان و تو ۱۵ هزار تومان اعتبار می‌گیری.</p>'+
+      (u.by?'':'<div class="field"><label>کد دعوت دوستت</label><input id="aRd" dir="ltr" placeholder="MX-XXXXX"><div class="err-msg" id="aErr"></div></div><button type="button" class="btn-ghost" id="aRb">ثبت کد دعوت</button>')+
+      (sp?'<h3 style="margin-top:18px">🎡 گردونه جایزه</h3><p class="hint-s">برای فعال‌سازی، کد خرید رو به @tahamxking2 بفرست تا کد فعال‌سازی بدم.</p>'+sp:'')+
+      (OWN.indexOf(u.tg)>-1?ownerBox():'')+
+      '<div class="m-actions"><button type="button" class="btn-ghost" id="aOut">خروج</button></div>');
+    if($('oG')) $('oG').onclick=function(){ $('oR').textContent=act($('oC').value.trim(),norm($('oT').value)); };
+    $('aCp').onclick=function(){ copy(u.code,this); };
+    $('aOut').onclick=function(){ db.cur=''; save(); acct(); };
+    if($('aRb')) $('aRb').onclick=function(){
+      var c=$('aRd').value.trim().toUpperCase(), e=$('aErr');
+      var bad=!/^MX-[0-9A-Z]{5}$/.test(c)?'کد دعوت معتبر نیست':c===u.code?'کد خودت رو نمی‌تونی بزنی':'';
+      if(bad){ e.textContent=bad; e.style.display='block'; return; }
+      u.by=c; u.bal+=NEW;
+      var o=null; for(var k in db.users) if(db.users[k].code===c) o=db.users[k];
+      if(o) o.bal+=INV; else db.pend[c]=(db.pend[c]||0)+INV;
+      save(); acct();
+    };
+    [].forEach.call(body.querySelectorAll('[data-ac]'),function(b){ b.onclick=function(){
+      var i=+b.getAttribute('data-ac'), s=u.spins[i];
+      if($('ac'+i).value.trim()===act(s.id,u.tg)){ s.st='ready'; save(); acct(); } else { b.textContent='کد اشتباهه'; }
+    };});
+    [].forEach.call(body.querySelectorAll('[data-sp]'),function(b){ b.onclick=function(){ wheel(u,+b.getAttribute('data-sp')); }; });
+  }
+
+  function wheel(u,i){
+    var s=u.spins[i], tot=PR.reduce(function(a,p){return a+p.w;},0), r=Math.random()*tot, k=0;
+    for(;k<PR.length-1;k++){ r-=PR[k].w; if(r<0) break; }
+    s.st='done'; s.prize=PR[k].v?fmt(PR[k].v)+' تومان':'پوچ'; u.bal+=PR[k].v; save();
+    show('<h3>🎡 گردونه جایزه</h3><div class="wheel-wrap"><div class="wheel" id="wh">'+PR.map(function(p,j){return '<i style="transform:rotate('+(j*45+22.5)+'deg)">'+p.l+'</i>';}).join('')+'</div></div><p class="hint-s" id="wRes">در حال چرخش...</p><div class="m-actions"><button type="button" class="btn-ghost" id="wBack">بازگشت به حساب</button></div>');
+    $('wBack').onclick=acct;
+    setTimeout(function(){ $('wh').style.transform='rotate('+(360*6-(k*45+22.5))+'deg)'; },60);
+    setTimeout(function(){ if($('wRes')) $('wRes').innerHTML=PR[k].v?'🎉 برنده شدی: <b>'+fmt(PR[k].v)+' تومان</b> به اعتبارت اضافه شد':'این بار پوچ بود، دفعه بعد!'; },4800);
+  }
+
+  var rate=function(){ var v=parseFloat($('sUsd').value); return isFinite(v)&&v>0?Math.round(v*RATE):0; };
+  $('sUsd').oninput=function(){ $('sToman').textContent=fmt(rate()); };
+  $('sSend').onclick=function(){
+    var l=$('sTrade').value.trim(), n=$('sName').value.trim(), e=$('sErr');
+    var bad=!/^https:\/\/steamcommunity\.com\/tradeoffer\/new\/\?partner=\d+&token=[\w-]+$/.test(l)?'لینک ترید استیم معتبر نیست':!n?'اسم اسکین رو وارد کن':!rate()?'قیمت دلاری رو وارد کن':'';
+    e.style.display=bad?'block':'none'; e.textContent=bad; if(bad) return;
+    var u=cur(), m='درخواست فروش اسکین\nاسکین: '+n+'\nقیمت: '+$('sUsd').value+' دلار\nمبلغ: '+fmt(rate())+' تومان\nلینک ترید: '+l+(u?'\nآیدی تلگرام: @'+u.tg:'');
+    copy(m); window.open(TGU+'?text='+encodeURIComponent(m),'_blank','noopener');
+  };
+
+  $('accBtn').onclick=acct;
+})();
+
 </script>
 </body>
 </html>
